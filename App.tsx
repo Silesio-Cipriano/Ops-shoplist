@@ -10,6 +10,8 @@ import {
   Jost_600SemiBold,
   Jost_700Bold
 } from '@expo-google-fonts/jost';
+import { InsertName } from './src/screens/Register/InsertName';
+import { InsertAge } from './src/screens/Register/InsertAge';
 
 export default function App() {
   const [fontsLoader] = useFonts({
@@ -24,7 +26,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar backgroundColor={'transparent'} barStyle="light-content" translucent />
-      <Onboarding />
+      <InsertAge />
     </ThemeProvider>
   )
 }

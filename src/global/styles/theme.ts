@@ -1,13 +1,17 @@
 export default {
   colors: {
-    Background: '#FDFDFD',
-    Primary: '#1A5D57',
-    Secundary: '#1D2730'
+    background: '#FDFDFD',
+    primary: '#1A5D57',
+    secondary: '#1D2730',
+    inative: "#7E9997",
+    text: {
+      primary: '#FDFDFD'
+    }
   },
   fonts: {
-    Jost_400Regular: 'Jost_400Regular',
-    Jost_500Medium: 'Jost_500Medium',
-    Jost_600SemiBold: 'Jost_600SemiBold',
-    Jost_700Bold: 'Jost_700Bold'
+    Jost400: 'Jost_400Regular',
+    Jost500: 'Jost_500Medium',
+    Jost600: 'Jost_600SemiBold',
+    Jost700: 'Jost_700Bold'
   }
 }

@@ -5,22 +5,22 @@ export const Container = styled.View`
  flex: 1;
 align-items: center;
  padding:32px 24px 0;
- background-color: ${({ theme }) => theme.colors.Background};
+ background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Title = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.Jost_700Bold};
+  font-family: ${({ theme }) => theme.fonts.Jost700};
   font-size:${RFValue(28)}px;
   text-align: center;
-  color:${({ theme }) => theme.colors.Primary};
+  color:${({ theme }) => theme.colors.primary};
   margin:24px 0;
 `;
 
 export const Description = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.Jost_400Regular};
+  font-family: ${({ theme }) => theme.fonts.Jost400};
   font-size:${RFValue(20)}px;
   text-align: center;
-  color:${({ theme }) => theme.colors.Primary};
+  color:${({ theme }) => theme.colors.primary};
   margin:${RFPercentage(5)}px;
 `
 
@@ -31,5 +31,5 @@ export const Button = styled.TouchableOpacity`
   border-radius:8px;
   width: 83px;
   height: 68px;
-  background-color: ${({ theme }) => theme.colors.Primary};
+  background-color: ${({ theme }) => theme.colors.primary};
 `;

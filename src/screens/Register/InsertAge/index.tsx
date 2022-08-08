@@ -18,7 +18,7 @@ export function InsertAge() {
   }
   return (
     <Container>
-      <BackButton />
+      <BackButton name="Voltar" />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >

@@ -1,6 +1,12 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
+
+interface ButtonProps {
+  title: string;
+  disabled: boolean;
+}
+
 export const Container = styled.TouchableOpacity`
   width: 100%;
   height:68px;
@@ -8,7 +14,7 @@ export const Container = styled.TouchableOpacity`
   align-items: center;
   background-color:${({ theme, disabled }) => disabled ? theme.colors.inative : theme.colors.primary};
   border-radius:10px;
-  margin-top:24px;
+  margin-top:12px;
 `;
 
 export const Title = styled.Text`

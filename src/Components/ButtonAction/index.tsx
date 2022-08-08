@@ -9,10 +9,11 @@ import {
 interface ButtonProps extends TouchableOpacityProps {
   title: string;
   disabled: boolean;
+  onPress: () => void;
 }
-export function ButtonAction({ title, disabled }: ButtonProps) {
+export function ButtonAction({ title, disabled, onPress }: ButtonProps) {
   return (
-    <Container disabled={disabled} >
+    <Container disabled={disabled} onPress={onPress}>
       <Title>{title}</Title>
     </Container>
   );

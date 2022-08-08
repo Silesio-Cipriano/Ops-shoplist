@@ -4,6 +4,9 @@ export default {
     primary: '#1A5D57',
     secondary: '#1D2730',
     inative: "#7E9997",
+    iconBackground: "#E4FFFF",
+    iconBackgroundBorder: "#78FFFF",
+    cardBackground: "#F5FAF7",
     text: {
       primary: '#FDFDFD'
     }

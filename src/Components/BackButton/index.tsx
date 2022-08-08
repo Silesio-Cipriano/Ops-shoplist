@@ -7,8 +7,10 @@ import {
   Title,
 } from './styles';
 import { useTheme } from 'styled-components';
-
-export function BackButton() {
+interface BackButtonProps {
+  name: string;
+}
+export function BackButton({ name }: BackButtonProps) {
   const theme = useTheme();
   return (
     <Container>
@@ -16,7 +18,7 @@ export function BackButton() {
         <Feather name="chevron-left" size={40} color={theme.colors.primary
         } />
       </Button>
-      <Title>Voltar</Title>
+      <Title>{name}</Title>
     </Container>
   );
 }

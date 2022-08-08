@@ -2,7 +2,7 @@ import { StatusBar } from 'react-native'
 import { ThemeProvider } from 'styled-components/native'
 import theme from './src/global/styles/theme'
 import { Onboarding } from './src/screens/Onboarding'
-
+import 'react-native-gesture-handler';
 import {
   useFonts,
   Jost_400Regular,
@@ -12,6 +12,10 @@ import {
 } from '@expo-google-fonts/jost';
 import { InsertName } from './src/screens/Register/InsertName';
 import { InsertAge } from './src/screens/Register/InsertAge';
+import { Home } from './src/screens/Home';
+import { CreateList } from './src/screens/CreateList';
+import { Categories } from './src/screens/Categories';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fontsLoader] = useFonts({
@@ -26,7 +30,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <StatusBar backgroundColor={'transparent'} barStyle="light-content" translucent />
-      <InsertAge />
+      <Routes />
     </ThemeProvider>
   )
 }

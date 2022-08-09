@@ -9,14 +9,6 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { BackButton } from '../../Components/BackButton';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-
-import PopCornSvg from '../../assets/ItemGroup/Icon_popcorn.svg'
-import CreditCardSvg from '../../assets/ItemGroup/Shopingin-Fly-Shopingin-Fly-Credit Machine.svg'
-import CoinSvg from '../../assets/ItemGroup/Shopingin-Isometric-Shopingin-Isometric-Coin.svg'
-import EggSvg from '../../assets/ItemGroup/Icon_eggs.svg'
-import PaperBagSvg from '../../assets/ItemGroup/Shopingin-Isometric-Paperbag.svg'
-import BreadSvg from '../../assets/ItemGroup/Icon_bread.svg'
-
 import {
   Container,
   Content,
@@ -32,6 +24,7 @@ import { ButtonAction } from '../../Components/ButtonAction';
 import { ModalIcons } from '../../Components/ModalIcons';
 import { SvgProps } from 'react-native-svg';
 import { Alert } from 'react-native';
+import { iconData } from '../../utils/iconData';
 interface IconProps {
   id?: string;
   Icon?: ReactNode;
@@ -80,26 +73,7 @@ export function CreateList() {
   }
 
 
-  const data = [{
-    id: uuid.v4().toString(),
-    Icon: <PopCornSvg width={66} />
-  }, {
-    id: uuid.v4().toString(),
-    Icon: <CreditCardSvg width={66} />
-  }, {
-    id: uuid.v4().toString(),
-    Icon: <CoinSvg width={66} />
-  }, {
-    id: uuid.v4().toString(),
-    Icon: <EggSvg width={66} />
-  }, {
-    id: uuid.v4().toString(),
-    Icon: <PaperBagSvg width={66} />
-  }, {
-    id: uuid.v4().toString(),
-    Icon: <BreadSvg width={66} />
-  }
-  ]
+  const data = iconData;
   const [visibleModal, setVisibleModal] = useState(false);
   const [iconSelected, setIconSelected] = useState<IconProps>(data[0]);
 
@@ -124,8 +98,8 @@ export function CreateList() {
   }
   const [name, setName] = useState("");
   const [spendingLimit, setSpendingLimit] = useState("");
-  async function handleAddList() {
 
+  async function handleAddList() {
     const newList: ListProps = {
       id: uuid.v4().toString(),
       name: name,
@@ -148,6 +122,11 @@ export function CreateList() {
       Alert.alert("Nao foi possivel adicionar categoria");
     }
 
+    navigation.navigate("Home");
+  }
+
+  function handleBackScreen() {
+    console.log("BackScreen")
     navigation.goBack();
   }
 
@@ -176,7 +155,7 @@ export function CreateList() {
   return (
     <Container>
       <Content>
-        <BackButton name="Nova Lista" />
+        <BackButton name="Nova Lista" onPress={() => handleBackScreen()} />
         <IconArea onPress={handleModalVisible}>
           {iconSelected.Icon}
         </IconArea>

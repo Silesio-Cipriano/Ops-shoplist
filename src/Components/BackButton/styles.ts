@@ -2,7 +2,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  margin-top:24px;
+  margin-top:34px;
   width:100%;
   flex-direction: row;
   justify-content: space-between;

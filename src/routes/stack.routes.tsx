@@ -4,6 +4,8 @@ import { Onboarding } from "../screens/Onboarding";
 import { Home } from "../screens/Home";
 import { CreateList } from "../screens/CreateList";
 import { Categories } from "../screens/Categories";
+import { ListItems } from "../screens/ListItems";
+import { CreateItem } from "../screens/CreateItem";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -32,6 +34,15 @@ export function StackRoutes() {
         name="Categories"
         component={Categories}
       />
+      <Screen
+        name="ListItems"
+        component={ListItems}
+      />
+      <Screen
+        name="CreateItem"
+        component={CreateItem}
+      />
+
     </Navigator>
   )
 }

@@ -45,10 +45,21 @@ export const ListCategory = styled.View`
 `;
 export const Content = styled.View`
 padding:0 24px;
+
 `;
-export const Message = styled.Text``;
+export const Message = styled.Text`
+ font-family: ${({ theme }) => theme.fonts.Jost500};
+  font-size:${RFValue(24)}px;
+  color:${({ theme }) => theme.colors.primary};
+  margin-bottom:38px;
+`;
 
 export const ListItems = styled.View`
 margin-top:16px;
   height:${RFPercentage(43)}px;
 `;
+
+export const NoItemArea = styled.View`
+justify-content: center;
+align-items: center;
+`

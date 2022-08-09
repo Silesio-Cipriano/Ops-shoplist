@@ -7,6 +7,7 @@ export default {
     iconBackground: "#E4FFFF",
     iconBackgroundBorder: "#78FFFF",
     cardBackground: "#F5FAF7",
+    alert: "#E83F5B",
     text: {
       primary: '#FDFDFD'
     }

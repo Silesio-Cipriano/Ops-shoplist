@@ -42,17 +42,18 @@ export function Categories() {
   const [disableButton, setDisableButton] = useState(true);
 
   function handleChangeScreen() {
-
     navigation.navigate('CreateList', { categorySelected });
   }
 
   async function handleAddCategory() {
+
     let newCategory = {
       id: uuid.v4().toString(),
       title: text,
       selected: false,
     }
-    if (text != null) {
+
+    if (text.length > 3) {
       try {
         const data = await AsyncStorage.getItem(dataKey);
         const currentData = data ? JSON.parse(data) : [];
@@ -87,8 +88,6 @@ export function Categories() {
       } else {
         data.selected = false
       }
-
-
       return data;
     })
     setData([...dataTemp]);
@@ -117,11 +116,13 @@ export function Categories() {
           onChangeText={setText}
         />
 
-        <BtnAddCategory onPress={handleAddCategory}>
-          <Feather name="plus" size={24} />
-        </BtnAddCategory>
 
       </InputCategory>
+
+      <BtnAddCategory onPress={handleAddCategory}>
+        <Feather name="plus" size={24} />
+      </BtnAddCategory>
+
       <CategoriesList>
         <FlatList<CategoryElementProps>
           style={{ flex: 1 }}
@@ -135,6 +136,6 @@ export function Categories() {
       </CategoriesList>
 
       <ButtonAction disabled={disableButton} title="Continuar" onPress={handleChangeScreen} />
-    </Container>
+    </Container >
   );
 }

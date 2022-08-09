@@ -6,16 +6,19 @@ import {
   Button,
   Title,
 } from './styles';
+
 import { useTheme } from 'styled-components';
 interface BackButtonProps {
   name: string;
+  onPress: () => void;
 }
-export function BackButton({ name }: BackButtonProps) {
+
+export function BackButton({ name, onPress }: BackButtonProps) {
   const theme = useTheme();
   return (
-    <Container>
-      <Button>
-        <Feather name="chevron-left" size={40} color={theme.colors.primary
+    <Container >
+      <Button onPress={onPress}>
+        <Feather name="chevron-left" size={32} color={theme.colors.primary
         } />
       </Button>
       <Title>{name}</Title>

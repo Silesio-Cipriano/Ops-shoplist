@@ -16,6 +16,8 @@ import { Home } from './src/screens/Home';
 import { CreateList } from './src/screens/CreateList';
 import { Categories } from './src/screens/Categories';
 import { Routes } from './src/routes';
+import { ListItems } from './src/screens/ListItems';
+import { CreateItem } from './src/screens/CreateItem';
 
 export default function App() {
   const [fontsLoader] = useFonts({

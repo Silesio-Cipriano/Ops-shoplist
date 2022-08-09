@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import PopCornSvg from '../../assets/ItemGroup/Icon_popcorn.svg'
 import {
@@ -8,11 +8,13 @@ import {
 interface CategoryItemProps {
   id: string;
   title: string;
+  icon: ReactNode;
+  onPress: () => void;
 }
-export function ItemGroup({ id, title }: CategoryItemProps) {
+export function ItemGroup({ id, title, icon, onPress }: CategoryItemProps) {
   return (
-    <Container>
-      <PopCornSvg width={86} height={86} />
+    <Container onPress={onPress}>
+      {icon}
       <Title>
         {title}
       </Title>

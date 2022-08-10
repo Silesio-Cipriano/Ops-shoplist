@@ -18,35 +18,38 @@ interface ListItemsProps {
   quantity: number,
   price: number,
   total: number,
+  status: boolean,
+  onPress: () => void;
 }
 
-export function BuyItem({ id, price, title, quantity, total }: ListItemsProps) {
+export function BuyItem({ id, price, title, quantity, total, onPress, status }: ListItemsProps) {
+
   return (
-    <Container>
+    <Container onPress={onPress} status={status}>
       <Line />
       <Top>
-        <Title>{title}</Title>
+        <Title status={status}>{title}</Title>
       </Top>
       <LineCentral />
       <Bottom>
         <BottomElement>
-          <Quantite>
+          <Quantite status={status}>
             Quantidade
           </Quantite>
-          <Qtd>{quantity}</Qtd>
+          <Qtd status={status}>{quantity}</Qtd>
         </BottomElement>
         <BottomElement>
-          <Quantite>
+          <Quantite status={status}>
             Preço
           </Quantite>
-          <Qtd>{price} Mzn</Qtd>
+          <Qtd status={status}>{price} Mzn</Qtd>
         </BottomElement>
 
         <BottomElement>
-          <Quantite>
+          <Quantite status={status}>
             Total
           </Quantite>
-          <Qtd>{total} Mzn</Qtd>
+          <Qtd status={status}>{total} Mzn</Qtd>
         </BottomElement>
       </Bottom>
     </Container>

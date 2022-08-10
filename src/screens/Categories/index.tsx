@@ -16,6 +16,7 @@ import {
 } from './styles';
 import { CategoryElement } from '../../Components/CategoryElement';
 import { ButtonAction } from '../../Components/ButtonAction';
+import { dataKey } from '../../utils/dataKey';
 
 interface CategoryElementProps {
   id: string;
@@ -29,7 +30,7 @@ interface CategorySelectedProps {
 }
 
 export function Categories() {
-  const dataKey = '@opslist:categories'
+  const dataCategoriesKey = dataKey.categories;
 
   const navigation = useNavigation<StackNavigationProp<any>>();
 
@@ -55,13 +56,13 @@ export function Categories() {
 
     if (text.length > 3) {
       try {
-        const data = await AsyncStorage.getItem(dataKey);
+        const data = await AsyncStorage.getItem(dataCategoriesKey);
         const currentData = data ? JSON.parse(data) : [];
         const dataUpdate = [
           ...currentData,
           newCategory
         ]
-        await AsyncStorage.setItem(dataKey, JSON.stringify(dataUpdate));
+        await AsyncStorage.setItem(dataCategoriesKey, JSON.stringify(dataUpdate));
         setData(dataUpdate);
         console.log("Salvo");
       } catch (error) {
@@ -94,14 +95,14 @@ export function Categories() {
   }
   useEffect(() => {
     async function loadData() {
-      const data = await AsyncStorage.getItem(dataKey);
+      const data = await AsyncStorage.getItem(dataCategoriesKey);
       setData(JSON.parse(data!));
       console.log(JSON.parse(data!));
     }
     loadData();
 
     // async function removeAll() {
-    //   await AsyncStorage.removeItem(dataKey);
+    //   await AsyncStorage.removeItem(dataCategoriesKey);
     // }
     // removeAll();
   }, []);

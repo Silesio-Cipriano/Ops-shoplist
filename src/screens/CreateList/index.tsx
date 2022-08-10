@@ -25,6 +25,7 @@ import { ModalIcons } from '../../Components/ModalIcons';
 import { SvgProps } from 'react-native-svg';
 import { Alert } from 'react-native';
 import { iconData } from '../../utils/iconData';
+import { dataKey } from '../../utils/dataKey';
 interface IconProps {
   id?: string;
   Icon?: ReactNode;
@@ -41,12 +42,13 @@ interface ListProps {
   spendingLimit: number;
   icon: string;
   category: string;
+  cost?: string;
 }
 
 type Params = any;
 
 export function CreateList() {
-  const dataKey = '@opslist:Lists'
+  const dataListKey = dataKey.list;
 
 
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -59,9 +61,6 @@ export function CreateList() {
   }
 
 
-  function handleChangeBackScreen() {
-    navigation.goBack();
-  }
 
   const [categoryListSelected, setCategoryListSelected] = useState({
     id: "-1",
@@ -109,13 +108,13 @@ export function CreateList() {
     }
 
     try {
-      const data = await AsyncStorage.getItem(dataKey);
+      const data = await AsyncStorage.getItem(dataListKey);
       const currentData = data ? JSON.parse(data) : [];
       const dataUpdate = [
         ...currentData,
         newList
       ]
-      await AsyncStorage.setItem(dataKey, JSON.stringify(dataUpdate));
+      await AsyncStorage.setItem(dataListKey, JSON.stringify(dataUpdate));
       console.log("Salvo");
     } catch (error) {
       console.log(error);
@@ -126,7 +125,6 @@ export function CreateList() {
   }
 
   function handleBackScreen() {
-    console.log("BackScreen")
     navigation.goBack();
   }
 

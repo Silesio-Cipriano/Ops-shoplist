@@ -7,10 +7,12 @@ import {
 
 interface CategoryItemProps {
   title: string;
+  status: boolean;
+  onPress: () => void;
 }
-export function CategoryItem({ title }: CategoryItemProps) {
+export function CategoryItem({ title, status, onPress }: CategoryItemProps) {
   return (
-    <Container>
+    <Container onPress={onPress} status={status}>
       <Title>{title}</Title>
     </Container>
   );

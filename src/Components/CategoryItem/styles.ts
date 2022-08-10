@@ -1,11 +1,13 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
-
-export const Container = styled.TouchableOpacity`
+interface CategoryItemProps {
+  status: boolean;
+}
+export const Container = styled.TouchableOpacity<CategoryItemProps>`
 width: 120px;
  height: 38px;
  border-radius:2px;
- background-color: ${({ theme }) => theme.colors.cardBackground};
+ background-color: ${({ theme, status }) => status ? theme.colors.iconBackground : theme.colors.cardBackground};
  border:.2px solid ${({ theme }) => theme.colors.primary};
  justify-content:center;
  align-items: center;

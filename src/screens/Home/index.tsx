@@ -28,11 +28,13 @@ import {
   SubTitleDay,
   ListCategory,
   ListItems,
-  NoItemArea,
 } from './styles';
+import { dataKey } from '../../utils/dataKey';
+import { NoItem } from '../../Components/NoItem';
 interface CategoryItemProps {
   id: string;
   title: string;
+  status?: boolean | false;
 }
 interface IconProps {
   id?: string;
@@ -43,6 +45,7 @@ interface ListHomeProps {
   name: string;
   icon: IconProps;
   category: string;
+  spendingLimit?: string;
 }
 
 interface ListProps {
@@ -50,14 +53,22 @@ interface ListProps {
   name: string;
   icon: string;
   category: string;
+  spendingLimit?: string;
 }
 
 export function Home() {
   const navigation = useNavigation<StackNavigationProp<any>>();
-  const dataListKey = '@opslist:Lists'
-  const dataCategoriesKey = '@opslist:categories'
+  const dataListKey = dataKey.list;
+  const dataCategoriesKey = dataKey.categories;
+  const dataItemsKey = dataKey.items;
+  const [categorySelected, setCategorySelected] = useState(false);
 
+  const [dataList, setDataList] = useState<ListHomeProps[]>({} as ListHomeProps[]);
+  const [saveData, setSaveData] = useState<ListHomeProps[]>({} as ListHomeProps[]);
+  const [categories, setCategories] = useState<CategoryItemProps[]>({} as CategoryItemProps[]);
+  const isFocused = useIsFocused();
 
+  const [categoryShow, setCategoryShow] = useState("");
 
 
   function handleChangeScreen() {
@@ -68,11 +79,36 @@ export function Home() {
     navigation.navigate('CreateList', { categorySelected });
   }
 
+  function filterList(category: string, index: number) {
+    let listFiltred: ListHomeProps[] = [];
+    if (category === categoryShow) {
+      let newCategories = categories;
+      newCategories[index].status = false;
+      setCategories(newCategories)
+      listFiltred = saveData;
+    } else {
+      listFiltred = saveData.filter(data => {
+        let newCategories = categories;
+        if (data.category === category) {
+          newCategories = categories.map(data => {
+            if (data.id === category) {
+              data.status = !data.status;
 
-  const [dataList, setListData] = useState<ListHomeProps[]>({} as ListHomeProps[]);
-  const [categories, setCategories] = useState<CategoryItemProps[]>({} as CategoryItemProps[]);
+            } else {
+              data.status = false;
+            }
+            return data;
+          })
+        }
+        setCategories(newCategories);
+        return data.category === category;
+      });
+    }
+    setCategoryShow(category)
+    setDataList(listFiltred);
+  }
 
-  const isFocused = useIsFocused();
+  let dataFormatted: ListHomeProps[] = [];
 
   useEffect(() => {
     async function loadData() {
@@ -80,38 +116,49 @@ export function Home() {
       const categories = await AsyncStorage.getItem(dataCategoriesKey);
       let categoriesF: CategoryItemProps[] = JSON.parse(categories)
       let dataF: ListProps[] = JSON.parse(data!);
-      let dataFormatted: ListHomeProps[] = [];
 
       dataF.map((data) => {
         iconData.map((icon) => {
-          console.log("Data: " + data.icon + "===" + icon.id);
           if (data?.icon === icon?.id) {
             const newIcon = icon;
             const newData: ListHomeProps = {
               id: data.id,
               name: data.name,
               icon: newIcon,
-              category: data.category
+              category: data.category,
+              spendingLimit: data.spendingLimit,
             }
             dataFormatted.push(newData);
           }
         })
       });
-      setListData(dataFormatted);
-
-      console.log(dataFormatted);
+      setSaveData(dataFormatted);
+      setDataList(dataFormatted);
+      let newCategory: CategoryItemProps[] = JSON.parse(categories);
+      newCategory = newCategory.filter(data => {
+        data.status = false;
+        return data;
+      })
       setCategories(JSON.parse(categories!));
     }
     loadData();
 
     // async function removeAll() {
     //   await AsyncStorage.removeItem(dataListKey);
+    //   await AsyncStorage.removeItem(dataItemsKey);
+    //   await AsyncStorage.removeItem(dataCategoriesKey);
     // }
     // removeAll();
   }, [isFocused]);
 
-  function handleList(listId: string) {
-    navigation.navigate("ListItems", { listId })
+  function handleList(listHome: ListHomeProps) {
+    const list = {
+      id: listHome.id,
+      name: listHome.name,
+      spendingLimit: listHome.spendingLimit,
+      icon: listHome.icon.id,
+    }
+    navigation.navigate("ListItems", { list })
   }
   return (
     <Container>
@@ -148,8 +195,8 @@ export function Home() {
             }}
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
-            renderItem={({ item }) =>
-              <CategoryItem title={item.title} />
+            renderItem={({ item, index }) =>
+              <CategoryItem title={item.title} status={item.status} onPress={() => filterList(item.id, index)} />
             }
           />
         </ListCategory>
@@ -165,15 +212,12 @@ export function Home() {
                 numColumns={2}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
                 renderItem={({ item }) =>
-                  < ItemGroup id={item.id} title={item.name} icon={item.icon.Icon} onPress={() => handleList(item.id)} />
+                  < ItemGroup id={item.id} title={item.name} icon={item.icon.Icon} onPress={() => handleList(item)} />
                 }
               />
             </ListItems>
           </> :
-          <NoItemArea>
-            <NoItemSvg width={140} />
-            <Message>Sem item</Message>
-          </NoItemArea>
+          <NoItem />
         }
 
         <ButtonAction title="Adicionar lista" disabled={false} onPress={handleChangeScreen} />

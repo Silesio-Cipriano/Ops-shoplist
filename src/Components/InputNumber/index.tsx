@@ -13,7 +13,7 @@ interface InputNumberProps {
 
 export function InputNumber({ name, titlePlaceholder, handleTextChange }: InputNumberProps) {
   return (
-    <Container
+    <Container keyboardType={"numeric"}
       value={name}
       placeholder={titlePlaceholder}
       onChangeText={(text) => handleTextChange(text)}

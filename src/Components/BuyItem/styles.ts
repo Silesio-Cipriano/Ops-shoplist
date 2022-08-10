@@ -1,8 +1,12 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
-export const Container = styled.TouchableOpacity`
+interface ListItemsProps {
+  status: boolean;
+}
+export const Container = styled.TouchableOpacity<ListItemsProps>`
  border:.5px solid ${({ theme }) => theme.colors.primary};
+ background-color: ${({ theme, status }) => status ? theme.colors.primary : "transparent"};
  /* width:310px; */
  width: 100%;
  height: 100px;
@@ -21,10 +25,12 @@ flex-direction: row;
 `
 export const Top = styled.View`
   flex-direction: row;
+
 `
-export const Title = styled.Text`
+export const Title = styled.Text<ListItemsProps>`
   font-size:${RFValue(18)}px;
-  color:${({ theme }) => theme.colors.primary};
+  color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
+
   font-family: ${({ theme }) => theme.fonts.Jost600};
 `
 
@@ -34,14 +40,16 @@ export const Bottom = styled.View`
   justify-content:space-between;
 `
 export const BottomElement = styled.View``;
-export const Quantite = styled.Text`
+export const Quantite = styled.Text<ListItemsProps>`
   font-size:${RFValue(16)}px;
-  color:${({ theme }) => theme.colors.primary};
+  color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
+
   font-family: ${({ theme }) => theme.fonts.Jost600};
 
 `
-export const Qtd = styled.Text`
+export const Qtd = styled.Text<ListItemsProps>`
   font-size:${RFValue(14)}px;
-  color:${({ theme }) => theme.colors.primary};
+  color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
+
   font-family: ${({ theme }) => theme.fonts.Jost400};
 `

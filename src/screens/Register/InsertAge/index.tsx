@@ -18,7 +18,7 @@ export function InsertAge() {
   }
   return (
     <Container>
-      <BackButton name="Voltar" />
+      <BackButton name="Voltar" onPress={() => { }} />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
@@ -29,7 +29,7 @@ export function InsertAge() {
               idade?
             </Title>
             <InputInit typeNumeric={true} titlePlaceholder="Digite uma idade" handleStatusFalse={() => handleStatusChangeFalse()} handleStatusTrue={() => handleStatusChangeTrue()} />
-            <ButtonAction disabled={buttonStatus} title="Continuar" />
+            <ButtonAction disabled={buttonStatus} title="Continuar" onPress={() => { }} />
           </Content>
         </TouchableWithoutFeedback>
 

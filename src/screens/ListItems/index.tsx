@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { SwipeListView } from 'react-native-swipe-list-view';
 import {
   Container,
   Header,
@@ -20,7 +20,8 @@ import {
 import { iconData, formatIcon } from '../../utils/iconData';
 import { useTheme } from 'styled-components';
 import { BuyItem } from '../../Components/BuyItem';
-import { FlatList } from 'react-native';
+import { ListDelete } from '../../Components/ListDelete';
+import { Alert, FlatList } from 'react-native';
 import { ButtonAction } from '../../Components/ButtonAction';
 import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -76,7 +77,7 @@ export function ListItems() {
     navigation.navigate('CreateItem', { list });
   }
 
-  async function buyItem(index: number) {
+  async function buyItem(index: number, id: string) {
     let newList = listItems;
     console.log(newList[index].status)
     const change = newList[index].status;
@@ -90,11 +91,66 @@ export function ListItems() {
       }
       return;
     })
-    setCost(newCost);
 
-    console.log(listItems);
+
+    try {
+      let data = await AsyncStorage.getItem(dataItemsKey);
+      const currentData: ListItemsProps[] = data ? JSON.parse(data) : [];
+      let currData = currentData.filter(data => {
+        console.log("Da: ", data.id + "===id: ", id);
+        if (data.id === id) {
+          data.status = !change;
+        }
+        return data;
+      });
+
+      await AsyncStorage.setItem(dataItemsKey, JSON.stringify(currData));
+
+      setCost(newCost);
+
+      data = await AsyncStorage.getItem(dataItemsKey);
+      let newData: ListItemsProps[] = data ? JSON.parse(data) : [];
+
+      let newListItems = newData.filter(item => {
+        return item.listId === list.id;
+      });
+      setListItems(newListItems);
+    } catch (error) {
+      Alert.alert("Nao foi capaz de criar o item");
+    }
+
+
+  }
+  function editItem(item: ListItemsProps) {
+    navigation.navigate("EditItem", { item });
   }
 
+  async function deleteItem(id: string) {
+    try {
+      let data = await AsyncStorage.getItem(dataItemsKey);
+      const currentData: ListItemsProps[] = data ? JSON.parse(data) : [];
+      let newList = currentData;
+      newList = newList.filter(item => {
+        if (item.id != id) return true;
+        else return false;
+      })
+
+      await AsyncStorage.setItem(dataItemsKey, JSON.stringify(newList));
+
+      data = await AsyncStorage.getItem(dataItemsKey);
+      let newData: ListItemsProps[] = data ? JSON.parse(data) : [];
+
+      let newListItems = newData.filter(item => {
+        return item.listId === list.id;
+      });
+
+      setListItems(newListItems);
+
+    } catch (error) {
+      Alert.alert("Nao foi capaz de criar o item");
+    }
+
+  }
 
   useEffect(() => {
     async function loadData() {
@@ -113,8 +169,6 @@ export function ListItems() {
         return;
       })
       setCost(newCost);
-
-
       setListItems(newListItems);
     }
 
@@ -142,13 +196,17 @@ export function ListItems() {
       </Header>
       <Content>
         {listItems.length ?
-          <FlatList<ListItemsProps>
+          <SwipeListView<ListItemsProps>
             data={listItems}
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
+            leftOpenValue={50}
+            rightOpenValue={-70}
             renderItem={({ item, index }) =>
-              <BuyItem id={item.id} title={item.title} price={item.price} quantity={item.quantity} total={item.total} status={item.status} onPress={() => buyItem(index)} />
+              <BuyItem id={item.id} title={item.title} price={item.price} quantity={item.quantity} total={item.total} status={item.status} onPress={() => buyItem(index, item.id)} onLongPress={() => { editItem(item) }} />
             }
+            disableRightSwipe={true}
+            renderHiddenItem={({ item, index }) => <ListDelete onDelete={() => deleteItem(item.id)} />}
           /> :
           <NoItem />
         }

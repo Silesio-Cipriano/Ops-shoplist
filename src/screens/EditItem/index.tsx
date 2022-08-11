@@ -37,18 +37,18 @@ interface ListItemsProps {
 
 
 
-export function CreateItem() {
+export function EditItem() {
   const dataItemsKey = dataKey.items;
 
   const navigation = useNavigation<StackNavigationProp<any>>();
 
 
   const route = useRoute();
-  const { list } = route.params as Params;
-  const listId = list.id;
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const { item } = route.params as Params;
+  const listId = item.listId;
+  const [name, setName] = useState(item.name);
+  const [price, setPrice] = useState(item.price);
+  const [quantity, setQuantity] = useState(item.quantity);
 
 
   function handleBackScreen() {
@@ -98,7 +98,7 @@ export function CreateItem() {
   function handleSelected() {
     setSelected(!selected);
   }
-  async function handleAddItemList() {
+  async function handleEditItemList() {
     const total = Number(price) * Number(quantity);
 
     const newItem: ListItemsProps = {
@@ -113,25 +113,25 @@ export function CreateItem() {
 
     console.log(newItem);
 
-    try {
-      const data = await AsyncStorage.getItem(dataItemsKey);
-      const currentData = data ? JSON.parse(data) : [];
-      const dataUpdate = [
-        ...currentData,
-        newItem
-      ]
-      console.log(dataUpdate);
-      await AsyncStorage.setItem(dataItemsKey, JSON.stringify(dataUpdate));
-      navigation.goBack();
-    } catch (error) {
-      Alert.alert("Nao foi capaz de criar o item");
-    }
+    // try {
+    //   const data = await AsyncStorage.getItem(dataItemsKey);
+    //   const currentData = data ? JSON.parse(data) : [];
+    //   const dataUpdate = [
+    //     ...currentData,
+    //     newItem
+    //   ]
+    //   console.log(dataUpdate);
+    //   await AsyncStorage.setItem(dataItemsKey, JSON.stringify(dataUpdate));
+    //   navigation.goBack();
+    // } catch (error) {
+    //   Alert.alert("Nao foi capaz de criar o item");
+    // }
 
   }
 
   return (
     <Container>
-      <BackButton name="Nova Lista" onPress={() => handleBackScreen()} />
+      <BackButton name="Editar" onPress={() => handleBackScreen()} />
       <Content>
         <Input name={name} titlePlaceholder='Nome' handleTextChange={handleNameText} />
         <InputGroup>
@@ -149,7 +149,7 @@ export function CreateItem() {
           </StatusButton>
         </StatusArea>
       </Content>
-      <ButtonAction title={"Criar Item"} disabled={buttonStatus} onPress={handleAddItemList} />
+      <ButtonAction title={"Salvar"} disabled={buttonStatus} onPress={handleEditItemList} />
     </Container>
   );
 }

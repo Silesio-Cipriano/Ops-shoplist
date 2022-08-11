@@ -20,12 +20,13 @@ interface ListItemsProps {
   total: number,
   status: boolean,
   onPress: () => void;
+  onLongPress: () => void;
 }
 
-export function BuyItem({ id, price, title, quantity, total, onPress, status }: ListItemsProps) {
+export function BuyItem({ id, price, title, quantity, total, onPress, onLongPress, status }: ListItemsProps) {
 
   return (
-    <Container onPress={onPress} status={status}>
+    <Container onLongPress={onLongPress} onPress={onPress} status={status} activeOpacity={1}>
       <Line />
       <Top>
         <Title status={status}>{title}</Title>

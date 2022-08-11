@@ -6,7 +6,7 @@ interface ListItemsProps {
 }
 export const Container = styled.TouchableOpacity<ListItemsProps>`
  border:.5px solid ${({ theme }) => theme.colors.primary};
- background-color: ${({ theme, status }) => status ? theme.colors.primary : "transparent"};
+ background-color: ${({ theme, status }) => status ? theme.colors.primary : theme.colors.background};
  /* width:310px; */
  width: 100%;
  height: 100px;

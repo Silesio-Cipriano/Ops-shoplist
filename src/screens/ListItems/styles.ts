@@ -5,6 +5,7 @@ export const Container = styled.View`
  flex: 1;
  justify-content:space-between;
  padding-bottom: 32px;
+ background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Header = styled.View`

@@ -16,12 +16,12 @@ import {
   TitleButton,
   SelectedBtn,
   Circle,
-  Rectangle,
 } from './styles';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { dataKey } from '../../utils/dataKey';
+import { ModalLimitedSpending } from '../../Components/ModalLimitedSpending';
 
 type Params = any;
 
@@ -86,9 +86,12 @@ export function CreateItem() {
 
   const [buttonStatus, setButtonStatus] = useState(true);
   const [selected, setSelected] = useState(true);
-
+  const [modalIteration, setModalIteration] = useState(false);
   function handleStatusChangeFalse() {
     setButtonStatus(false);
+  }
+  function handleModalVisible() {
+    setModalIteration(!true);
   }
 
   function handleStatusChangeTrue() {
@@ -98,33 +101,39 @@ export function CreateItem() {
   function handleSelected() {
     setSelected(!selected);
   }
+
+
+
   async function handleAddItemList() {
     const total = Number(price) * Number(quantity);
+    const costTotal = (Number(list.cost) + total);
+    if (Number(list.spendingLimit) < costTotal) {
+      setModalIteration(true);
+    } else {
 
-    const newItem: ListItemsProps = {
-      id: uuid.v4().toString(),
-      title: name,
-      price: price,
-      quantity: quantity,
-      total: total.toString(),
-      listId: listId,
-      status: selected
-    };
+      const newItem: ListItemsProps = {
+        id: uuid.v4().toString(),
+        title: name,
+        price: price,
+        quantity: quantity,
+        total: total.toString(),
+        listId: listId,
+        status: selected
+      };
 
-    console.log(newItem);
 
-    try {
-      const data = await AsyncStorage.getItem(dataItemsKey);
-      const currentData = data ? JSON.parse(data) : [];
-      const dataUpdate = [
-        ...currentData,
-        newItem
-      ]
-      console.log(dataUpdate);
-      await AsyncStorage.setItem(dataItemsKey, JSON.stringify(dataUpdate));
-      navigation.goBack();
-    } catch (error) {
-      Alert.alert("Nao foi capaz de criar o item");
+      try {
+        const data = await AsyncStorage.getItem(dataItemsKey);
+        const currentData = data ? JSON.parse(data) : [];
+        const dataUpdate = [
+          ...currentData,
+          newItem
+        ]
+        await AsyncStorage.setItem(dataItemsKey, JSON.stringify(dataUpdate));
+        navigation.goBack();
+      } catch (error) {
+        Alert.alert("Nao foi capaz de criar o item");
+      }
     }
 
   }
@@ -149,6 +158,7 @@ export function CreateItem() {
           </StatusButton>
         </StatusArea>
       </Content>
+      <ModalLimitedSpending item={name} spendingLimit={list.spendingLimit} list={list.name} visible={modalIteration} fModalVisible={handleModalVisible} />
       <ButtonAction title={"Criar Item"} disabled={buttonStatus} onPress={handleAddItemList} />
     </Container>
   );

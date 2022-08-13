@@ -46,7 +46,7 @@ export function EditItem() {
   const route = useRoute();
   const { item } = route.params as Params;
   const listId = item.listId;
-  const [name, setName] = useState(item.name);
+  const [name, setName] = useState(item.title);
   const [price, setPrice] = useState(item.price);
   const [quantity, setQuantity] = useState(item.quantity);
 
@@ -84,7 +84,7 @@ export function EditItem() {
     }
   }
 
-  const [buttonStatus, setButtonStatus] = useState(true);
+  const [buttonStatus, setButtonStatus] = useState(false);
   const [selected, setSelected] = useState(true);
 
   function handleStatusChangeFalse() {
@@ -102,7 +102,7 @@ export function EditItem() {
     const total = Number(price) * Number(quantity);
 
     const newItem: ListItemsProps = {
-      id: uuid.v4().toString(),
+      id: item.id,
       title: name,
       price: price,
       quantity: quantity,
@@ -113,19 +113,24 @@ export function EditItem() {
 
     console.log(newItem);
 
-    // try {
-    //   const data = await AsyncStorage.getItem(dataItemsKey);
-    //   const currentData = data ? JSON.parse(data) : [];
-    //   const dataUpdate = [
-    //     ...currentData,
-    //     newItem
-    //   ]
-    //   console.log(dataUpdate);
-    //   await AsyncStorage.setItem(dataItemsKey, JSON.stringify(dataUpdate));
-    //   navigation.goBack();
-    // } catch (error) {
-    //   Alert.alert("Nao foi capaz de criar o item");
-    // }
+    try {
+      const data = await AsyncStorage.getItem(dataItemsKey);
+      const currentData: ListItemsProps[] = data ? JSON.parse(data) : [];
+      let newListItem = currentData.filter(item => {
+        if (item.id === newItem.id) {
+          item.title = newItem.title;
+          item.price = newItem.price;
+          item.quantity = newItem.quantity;
+          item.total = newItem.total;
+          item.status = newItem.status;
+        }
+        return item;
+      })
+      await AsyncStorage.setItem(dataItemsKey, JSON.stringify(newListItem));
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert("Nao foi capaz de criar o item");
+    }
 
   }
 
@@ -149,7 +154,7 @@ export function EditItem() {
           </StatusButton>
         </StatusArea>
       </Content>
-      <ButtonAction title={"Salvar"} disabled={buttonStatus} onPress={handleEditItemList} />
+      <ButtonAction title={"Salvar"} disabled={false} onPress={handleEditItemList} />
     </Container>
   );
 }

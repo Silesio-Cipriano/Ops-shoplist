@@ -5,7 +5,7 @@ interface ListItemsProps {
   status: boolean;
 }
 export const Container = styled.TouchableOpacity<ListItemsProps>`
- border:.5px solid ${({ theme }) => theme.colors.primary};
+ border:${({ status }) => status ? 0 : .5}px solid ${({ theme }) => theme.colors.primary};
  background-color: ${({ theme, status }) => status ? theme.colors.primary : theme.colors.background};
  /* width:310px; */
  width: 100%;
@@ -28,20 +28,24 @@ export const Top = styled.View`
 
 `
 export const Title = styled.Text<ListItemsProps>`
-  font-size:${RFValue(18)}px;
+  font-size:${RFValue(20)}px;
   color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
 
-  font-family: ${({ theme }) => theme.fonts.Jost600};
+  font-family: ${({ theme }) => theme.fonts.Jost700};
 `
 
-export const LineCentral = styled.View``
+export const LineCentral = styled.View`
+  width: 100%;
+  height: 1px;
+  color:red;
+`
 export const Bottom = styled.View`
   flex-direction: row;
   justify-content:space-between;
 `
 export const BottomElement = styled.View``;
 export const Quantite = styled.Text<ListItemsProps>`
-  font-size:${RFValue(16)}px;
+  font-size:${RFValue(14)}px;
   color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
 
   font-family: ${({ theme }) => theme.fonts.Jost600};

@@ -7,6 +7,7 @@ import { Categories } from "../screens/Categories";
 import { ListItems } from "../screens/ListItems";
 import { CreateItem } from "../screens/CreateItem";
 import { EditItem } from "../screens/EditItem";
+import { EditList } from "../screens/EditList";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -46,6 +47,10 @@ export function StackRoutes() {
       <Screen
         name="EditItem"
         component={EditItem}
+      />
+      <Screen
+        name="EditList"
+        component={EditList}
       />
 
     </Navigator>

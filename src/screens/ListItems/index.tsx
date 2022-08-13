@@ -65,7 +65,6 @@ export function ListItems() {
   const { list } = route.params as Params;
   const [listData, setListData] = useState<ListProps>({} as ListProps);
   const icon = formatIcon(50, 50);
-
   const index = Number(list.icon) - 1;
   const iconOfList = icon[index];
 
@@ -77,9 +76,11 @@ export function ListItems() {
     navigation.navigate('CreateItem', { list });
   }
 
+  function handleEditList(list: ListProps) {
+    navigation.navigate('EditList', { list });
+  }
   async function buyItem(index: number, id: string) {
     let newList = listItems;
-    console.log(newList[index].status)
     const change = newList[index].status;
     newList[index].status = !change;
     setListItems([...newList]);
@@ -97,7 +98,6 @@ export function ListItems() {
       let data = await AsyncStorage.getItem(dataItemsKey);
       const currentData: ListItemsProps[] = data ? JSON.parse(data) : [];
       let currData = currentData.filter(data => {
-        console.log("Da: ", data.id + "===id: ", id);
         if (data.id === id) {
           data.status = !change;
         }
@@ -107,7 +107,7 @@ export function ListItems() {
       await AsyncStorage.setItem(dataItemsKey, JSON.stringify(currData));
 
       setCost(newCost);
-
+      list.cost = newCost.toString();
       data = await AsyncStorage.getItem(dataItemsKey);
       let newData: ListItemsProps[] = data ? JSON.parse(data) : [];
 
@@ -143,7 +143,16 @@ export function ListItems() {
       let newListItems = newData.filter(item => {
         return item.listId === list.id;
       });
+      let newCost = 0;
+      newListItems.map(item => {
+        if (item.status === true) {
+          newCost = newCost + Number(item.total);
+        }
+        return;
+      })
 
+      setCost(newCost);
+      list.cost = Number(newCost);
       setListItems(newListItems);
 
     } catch (error) {
@@ -169,6 +178,7 @@ export function ListItems() {
         return;
       })
       setCost(newCost);
+      list.cost = newCost.toString();
       setListItems(newListItems);
     }
 
@@ -183,7 +193,7 @@ export function ListItems() {
             <Feather name="chevron-left" size={34} color={useTheme().colors.primary} />
             <Name>{list.name}</Name>
           </Left>
-          <Icon>
+          <Icon onPress={() => handleEditList(list)}>
             {iconOfList.Icon}
           </Icon>
         </ButtonBack>

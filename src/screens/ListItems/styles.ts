@@ -26,7 +26,7 @@ export const Name = styled.Text`
 export const Left = styled.TouchableOpacity`
   flex-direction:row;
 `;
-export const Icon = styled.View`
+export const Icon = styled.TouchableOpacity`
 `
 export const Top = styled.View`
   margin-top:12px;

@@ -13,12 +13,12 @@ export const Top = styled.View`
   `
 export const Greeting = styled.View``
 export const Hello = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.Jost400};
+  font-family: ${({ theme }) => theme.fonts.Primary400};
   font-size:${RFValue(32)}px;
   color:${({ theme }) => theme.colors.primary};
 `
 export const NameUser = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.Jost600};
+  font-family: ${({ theme }) => theme.fonts.Primary600};
   font-size:${RFValue(32)}px;
   color:${({ theme }) => theme.colors.primary};
 `
@@ -29,12 +29,12 @@ export const Bottom = styled.View`
   margin-top:${RFValue(24)}px;
 `
 export const TitleDay = styled.Text`
- font-family: ${({ theme }) => theme.fonts.Jost600};
+ font-family: ${({ theme }) => theme.fonts.Primary600};
   font-size:${RFValue(17)}px;
   color:${({ theme }) => theme.colors.primary};
 `
 export const SubTitleDay = styled.Text`
- font-family: ${({ theme }) => theme.fonts.Jost400};
+ font-family: ${({ theme }) => theme.fonts.Primary400};
   font-size:${RFValue(17)}px;
   color:${({ theme }) => theme.colors.primary};
 `
@@ -48,7 +48,7 @@ padding:0 24px;
 
 `;
 export const Message = styled.Text`
- font-family: ${({ theme }) => theme.fonts.Jost500};
+ font-family: ${({ theme }) => theme.fonts.Primary500};
   font-size:${RFValue(24)}px;
   color:${({ theme }) => theme.colors.primary};
   margin-bottom:38px;

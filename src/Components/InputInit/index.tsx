@@ -8,28 +8,20 @@ import {
 interface InputInitProps {
   titlePlaceholder: string;
   typeNumeric: boolean;
+  value: string;
+  changeText: (text: string) => void;
   handleStatusFalse: () => void;
   handleStatusTrue: () => void;
 }
-export function InputInit({ titlePlaceholder, handleStatusFalse, handleStatusTrue, typeNumeric = false }: InputInitProps) {
-  const [name, setName] = useState<string>("");
+export function InputInit({ value, changeText, titlePlaceholder, handleStatusFalse, handleStatusTrue, typeNumeric = false }: InputInitProps) {
 
-  function handleTextChange(text: string) {
-    if (typeNumeric) {
-      text = text.replace(/[^0-9]/g, '');
-    }
-    setName(text);
-    if (text) {
-      handleStatusFalse()
-    } else {
-      handleStatusTrue()
-    }
-  }
+
   return (
     <Container keyboardType={typeNumeric ? "numeric" : "default"}
-      value={name}
+      maxLength={typeNumeric ? 2 : 100}
+      value={value}
       placeholder={titlePlaceholder}
-      onChangeText={(text) => handleTextChange(text)}
+      onChangeText={(text) => changeText(text)}
     />
   );
 }

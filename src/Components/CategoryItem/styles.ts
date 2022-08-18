@@ -14,7 +14,7 @@ width: 120px;
  margin-left:12px;
 `;
 export const Title = styled.Text`
- font-family: ${({ theme }) => theme.fonts.Jost400};
+ font-family: ${({ theme }) => theme.fonts.Primary400};
   font-size:${RFValue(18)}px;
   color:${({ theme }) => theme.colors.primary};
 `;

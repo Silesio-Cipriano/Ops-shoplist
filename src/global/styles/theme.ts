@@ -1,21 +1,23 @@
 export default {
   colors: {
-    background: '#FDFDFD',
-    primary: '#1A5D57',
-    secondary: '#1D2730',
+    background: '#FFFFFF',
+    primary: '#FFC700',
+    buttonBackBorder: "#FEF0BE",
+    secondary: '#222734',
     inative: "#7E9997",
     iconBackground: "#E4FFFF",
     iconBackgroundBorder: "#78FFFF",
     cardBackground: "#F5FAF7",
     alert: "#E83F5B",
     text: {
-      primary: '#FDFDFD'
+      primary: '#222734',
+      inative: "#7C7F86"
     }
   },
   fonts: {
-    Jost400: 'Jost_400Regular',
-    Jost500: 'Jost_500Medium',
-    Jost600: 'Jost_600SemiBold',
-    Jost700: 'Jost_700Bold'
+    Primary400: 'Nunito_400Regular',
+    Primary500: 'Nunito_500Medium',
+    Primary600: 'Nunito_600SemiBold',
+    Primary700: 'Nunito_700Bold'
   }
 }

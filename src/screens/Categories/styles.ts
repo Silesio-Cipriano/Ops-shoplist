@@ -7,7 +7,7 @@ export const Container = styled.View`
 
 export const Category = styled.Text`
   font-size: ${RFValue(24)}px;
-  font-family: ${({ theme }) => theme.fonts.Jost600};
+  font-family: ${({ theme }) => theme.fonts.Primary600};
   color: ${({ theme }) => theme.colors.primary};
 `
 export const InputCategory = styled.View`
@@ -19,7 +19,7 @@ export const InputCategory = styled.View`
 `
 export const Input = styled.TextInput`
   font-size: ${RFValue(20)}px;
-  font-family: ${({ theme }) => theme.fonts.Jost400};
+  font-family: ${({ theme }) => theme.fonts.Primary400};
   color: ${({ theme }) => theme.colors.primary};
   width:100%;
   height:34px;

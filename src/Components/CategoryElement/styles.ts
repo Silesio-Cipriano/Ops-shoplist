@@ -15,7 +15,7 @@ export const Container = styled.TouchableOpacity`
 
 export const Title = styled.Text`
   font-size: ${RFValue(20)}px;
-  font-family: ${({ theme }) => theme.fonts.Jost400};
+  font-family: ${({ theme }) => theme.fonts.Primary400};
   color: ${({ theme }) => theme.colors.primary};
 `
 export const SelectedElement = styled.View<CategoryElementProps>`

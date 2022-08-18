@@ -8,22 +8,19 @@ import { ListItems } from "../screens/ListItems";
 import { CreateItem } from "../screens/CreateItem";
 import { EditItem } from "../screens/EditItem";
 import { EditList } from "../screens/EditList";
+import { Register } from "../screens/Register";
 
 const { Navigator, Screen } = createStackNavigator();
 
-export function StackRoutes() {
+export function AppRoutes() {
   return (
     <Navigator
       screenOptions={{
         headerShown: false,
         animationEnabled: false,
       }}
-      initialRouteName="Onboarding"
+      initialRouteName="Home"
     >
-      <Screen
-        name="Onboarding"
-        component={Onboarding}
-      />
       <Screen
         name="Home"
         component={Home}
@@ -56,3 +53,4 @@ export function StackRoutes() {
     </Navigator>
   )
 }
+

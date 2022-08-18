@@ -5,7 +5,7 @@ export const Container = styled.TextInput`
   width:140px;
   height:45px;
   font-size:${RFValue(20)}px;
-  font-family:${({ theme, value }) => value ? theme.fonts.Jost600 : theme.fonts.Jost400};
+  font-family:${({ theme, value }) => value ? theme.fonts.Primary600 : theme.fonts.Primary400};
   border-bottom-width: 1px;
   border-color: ${({ theme }) => theme.colors.primary};
   color:${({ theme }) => theme.colors.primary};

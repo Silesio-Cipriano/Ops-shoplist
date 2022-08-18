@@ -18,7 +18,7 @@ export const HeaderModal = styled.View`
 `;
 export const TitleModal = styled.Text`
   font-size:${RFValue(24)}px;
-  font-family: ${({ theme }) => theme.fonts.Jost600};
+  font-family: ${({ theme }) => theme.fonts.Primary600};
   color: ${({ theme }) => theme.colors.primary};
 `;
 export const BodyModal = styled.View`
@@ -45,20 +45,20 @@ margin:32px 0;
 `
 export const Message = styled.Text`
   font-size:${RFValue(20)}px;
-  font-family: ${({ theme }) => theme.fonts.Jost400};
+  font-family: ${({ theme }) => theme.fonts.Primary400};
   color: ${({ theme }) => theme.colors.primary};
   text-align: center;
 `
 export const Title = styled.Text`
  font-size:${RFValue(20)}px;
  text-align: center;
-  font-family: ${({ theme }) => theme.fonts.Jost600};
+  font-family: ${({ theme }) => theme.fonts.Primary600};
   color: ${({ theme }) => theme.colors.primary};
 `
 export const AlertMessage = styled.Text`
  font-size:${RFValue(20)}px;
  text-align: center;
-  font-family: ${({ theme }) => theme.fonts.Jost400};
+  font-family: ${({ theme }) => theme.fonts.Primary400};
   color: ${({ theme }) => theme.colors.alert};
 `
 export const ButtonGroup = styled.View`

@@ -52,7 +52,6 @@ export function ModalLimitedSpending({ visible, item, spendingLimit, list, fModa
               <ButtonModalIteration name={'Continuar'} onPress={fModalVisible} />
             </ButtonGroup>
           </Content>
-
         </BodyModal>
       </AreaModal>
     </Container >

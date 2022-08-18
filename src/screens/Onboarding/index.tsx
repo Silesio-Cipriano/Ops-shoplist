@@ -1,30 +1,67 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-
 import { Feather } from '@expo/vector-icons';
-import WomanOnboarding from '../../assets/onboarding/Woman.svg';
 import {
-  Button,
+  ButtonJump,
+  ButtonNext,
   Container,
-  Description,
-  Title
+  FooterArea,
+  LogoArea,
+  Title,
 } from './styles';
+import Logo from '../../assets/Logo.svg';
 
+import { BackWithIcon } from '../../Components/BackWithIcon';
+import { Footer } from '../../Components/Onboarding/Footer';
+import { ButtonAction } from '../../Components/ButtonAction';
+import { onboarding } from '../../utils/onboardingData';
+import { useState, useContext } from 'react';
+import { useAuth } from '../../hooks/auth';
 export function Onboarding() {
+  const { user } = useAuth();
+  console.log(user);
   const navigation = useNavigation<StackNavigationProp<any>>();
 
+  const [index, setIndex] = useState(0);
   function handleChangeScreen() {
-    navigation.navigate('Home');
+    navigation.navigate("Register");
   }
+  function nextOnb() {
+    if (index < 3) {
+      let i = index + 1;
+      setIndex(i);
+    }
+  }
+
+  function prevOnb() {
+    if (index > 0) {
+      let i = index - 1;
+      setIndex(i);
+    }
+  }
+
+
+  function skip() {
+    setIndex(3);
+  }
+
 
   return (
     <Container>
-      <Title>Gerencie{'\n'}suas compras de{'\n'}forma facil</Title>
-      <WomanOnboarding height={200} />
-      <Description>Não esqueça mais o que deve comprar e quanto gastar, a organização é tudo</Description>
-      <Button onPress={handleChangeScreen}>
-        <Feather name="chevron-right" size={39} color="white" />
-      </Button>
+      {index > 0 ? <BackWithIcon backOnb={prevOnb} />
+        :
+        <LogoArea>
+          <Logo />
+        </LogoArea>
+
+      }
+      {onboarding[index].Body}
+
+      {index < 3 ?
+        <Footer onNext={nextOnb} skip={skip} />
+        :
+        <ButtonAction title={"Comecar"} disabled={false} onPress={handleChangeScreen} />
+      }
     </Container>
   );
 }

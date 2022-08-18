@@ -19,7 +19,7 @@ export const HeaderModal = styled.View`
 `;
 export const TitleModal = styled.Text`
   font-size:${RFValue(24)}px;
-  font-family: ${({ theme }) => theme.fonts.Jost600};
+  font-family: ${({ theme }) => theme.fonts.Primary600};
   color: ${({ theme }) => theme.colors.primary};
 `;
 export const BodyModal = styled.View`

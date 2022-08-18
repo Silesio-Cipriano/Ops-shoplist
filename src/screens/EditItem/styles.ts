@@ -23,7 +23,7 @@ export const StatusArea = styled.View`
 `
 export const Status = styled.Text`
 text-align: left;
-font-family: ${({ theme }) => theme.fonts.Jost600};
+font-family: ${({ theme }) => theme.fonts.Primary600};
 color: ${({ theme }) => theme.colors.primary};
 font-size:${RFValue(20)}px;
 `
@@ -33,7 +33,7 @@ export const StatusButton = styled.TouchableOpacity`
   margin-top:12px;
 `
 export const TitleButton = styled.Text`
-font-family: ${({ theme }) => theme.fonts.Jost500};
+font-family: ${({ theme }) => theme.fonts.Primary500};
 color: ${({ theme }) => theme.colors.inative};
 font-size:${RFValue(20)}px;
 `

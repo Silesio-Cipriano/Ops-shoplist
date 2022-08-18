@@ -5,6 +5,10 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
-  }
+    ],
+    "icon":"./assets/images/icon.png",
+    "splash": {
+    "image": "./assets/images/splash.png"
+    }
+}
 }

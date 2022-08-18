@@ -19,7 +19,7 @@ export const ButtonBack = styled.View`
 export const Name = styled.Text`
   font-size:${RFValue(18)}px;
   color:${({ theme }) => theme.colors.primary};
-  font-family: ${({ theme }) => theme.fonts.Jost600};
+  font-family: ${({ theme }) => theme.fonts.Primary600};
   width: 80px;
   padding-left:10px;
 `;
@@ -34,22 +34,22 @@ export const Top = styled.View`
 export const Limit = styled.Text`
   font-size:${RFValue(18)}px;
   color:${({ theme }) => theme.colors.primary};
-  font-family: ${({ theme }) => theme.fonts.Jost600};
+  font-family: ${({ theme }) => theme.fonts.Primary600};
 `
 export const Limited = styled.Text`
   font-size:${RFValue(18)}px;
   color:${({ theme }) => theme.colors.primary};
-  font-family: ${({ theme }) => theme.fonts.Jost400};
+  font-family: ${({ theme }) => theme.fonts.Primary400};
 `
 export const Cost = styled.Text`
   font-size:${RFValue(18)}px;
   color:${({ theme }) => theme.colors.alert};
-  font-family: ${({ theme }) => theme.fonts.Jost400};
+  font-family: ${({ theme }) => theme.fonts.Primary400};
 `
 export const Item = styled.Text`
   font-size:${RFValue(18)}px;
   color:${({ theme }) => theme.colors.primary};
-  font-family: ${({ theme }) => theme.fonts.Jost400};
+  font-family: ${({ theme }) => theme.fonts.Primary400};
 `
 export const Content = styled.View` 
   justify-content: center;

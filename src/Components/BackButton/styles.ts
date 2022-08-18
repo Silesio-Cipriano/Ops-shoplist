@@ -12,7 +12,7 @@ export const Container = styled.View`
 export const Button = styled.TouchableOpacity`
 `;
 export const Title = styled.Text`
-  font-family:${({ theme }) => theme.fonts.Jost600};
+  font-family:${({ theme }) => theme.fonts.Primary600};
   font-size:${RFValue(20)}px;
   color:${({ theme }) => theme.colors.inative};
 `;

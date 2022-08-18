@@ -1089,6 +1089,11 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/jost/-/jost-0.2.2.tgz#959140157a7884223dd9b2fc0398327f6ceac417"
   integrity sha512-Pl5RlTyflzdYtsb6Eun1SLZhkC6VYoXjTb9mrxDwubR5ColOufoKGxqnwS4mqoI9CHhL5bkeINpqyrjjhpGaVw==
 
+"@expo-google-fonts/nunito@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/nunito/-/nunito-0.2.2.tgz#591ba2e215204939c376c5f450071ef7626b4d87"
+  integrity sha512-ETADsCjZt6LmJKj3f1D01YZ3hJU3D2S0JEKd9yuTOmW7KJGuqEB37uE6SwMbmHOEWXmdtygw2k1Smm2xg3KnEw==
+
 "@expo/bunyan@4.0.0", "@expo/bunyan@^4.0.0":
   version "4.0.0"
   resolved "https://registry.npmjs.org/@expo/bunyan/-/bunyan-4.0.0.tgz"

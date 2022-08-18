@@ -31,7 +31,7 @@ export const Title = styled.Text<ListItemsProps>`
   font-size:${RFValue(20)}px;
   color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
 
-  font-family: ${({ theme }) => theme.fonts.Jost700};
+  font-family: ${({ theme }) => theme.fonts.Primary700};
 `
 
 export const LineCentral = styled.View`
@@ -48,12 +48,12 @@ export const Quantite = styled.Text<ListItemsProps>`
   font-size:${RFValue(14)}px;
   color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
 
-  font-family: ${({ theme }) => theme.fonts.Jost600};
+  font-family: ${({ theme }) => theme.fonts.Primary600};
 
 `
 export const Qtd = styled.Text<ListItemsProps>`
   font-size:${RFValue(14)}px;
   color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
 
-  font-family: ${({ theme }) => theme.fonts.Jost400};
+  font-family: ${({ theme }) => theme.fonts.Primary400};
 `

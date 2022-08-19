@@ -2,19 +2,40 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.TouchableOpacity`
-  width: 150px;
-  height: 150px;
-  padding:0 12px;
+  flex-direction: row;
+  width: 100%;
+  height: 100px;
+  padding:0 8px;
   margin-top:12px;
   border-radius:2px;
-  border:.2px solid ${({ theme }) => theme.colors.primary};;
-  justify-content:center;
+  border:.5px solid ${({ theme }) => theme.colors.secondary};;
+  justify-content:space-around;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.cardBackground};
+  background-color: ${({ theme }) => theme.colors.background}
 `;
 export const Title = styled.Text`
-text-align: center;
   font-size:${RFValue(18)}px;
-  font-family: ${({ theme }) => theme.fonts.Primary400};
-  color: ${({ theme }) => theme.colors.primary};
+  font-family: ${({ theme }) => theme.fonts.Primary700};
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
+
+
+export const Info = styled.View`
+flex-direction: column;
+justify-content:space-around;
+`
+export const Limited = styled.Text`
+font-size:${RFValue(14)}px;
+  font-family: ${({ theme }) => theme.fonts.Primary400};
+  color: ${({ theme }) => theme.colors.text.primary};
+  margin-right:8px;
+`
+export const Cost = styled.Text`
+font-size:${RFValue(14)}px;
+  font-family: ${({ theme }) => theme.fonts.Primary400};
+  color: ${({ theme }) => theme.colors.text.primary};
+`
+export const More = styled.View`
+  flex-direction: row;
+  margin-top:10px;
+`

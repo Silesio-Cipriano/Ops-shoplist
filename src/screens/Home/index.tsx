@@ -4,7 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import uuid from 'react-native-uuid';
 
-import { FlatList } from 'react-native';
+import { Alert, FlatList } from 'react-native';
 import FilterSvg from '../../assets/home/Filter.svg'
 import NoItemSvg from '../../assets/NoItem.svg'
 import { ButtonAction } from '../../Components/ButtonAction';
@@ -28,9 +28,13 @@ import {
   SubTitleDay,
   ListCategory,
   ListItems,
+  Body,
+  BottomArea,
 } from './styles';
 import { dataKey } from '../../utils/dataKey';
 import { NoItem } from '../../Components/NoItem';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { ListDelete } from '../../Components/ListDelete';
 interface CategoryItemProps {
   id: string;
   title: string;
@@ -70,6 +74,84 @@ export function Home() {
 
   const [categoryShow, setCategoryShow] = useState("");
 
+  const [changeAny, setChangeAny] = useState(false);
+
+  async function loadData() {
+    const data = await AsyncStorage.getItem(dataListKey);
+    const categories = await AsyncStorage.getItem(dataCategoriesKey);
+    let dataF: ListProps[] = data ? JSON.parse(data) : [];
+
+    dataF.map((data) => {
+      iconData.map((icon) => {
+        if (data?.icon === icon?.id) {
+          const newIcon = icon;
+          const newData: ListHomeProps = {
+            id: data.id,
+            name: data.name,
+            icon: newIcon,
+            category: data.category,
+            spendingLimit: data.spendingLimit,
+          }
+          dataFormatted.push(newData);
+        }
+      })
+    });
+    setSaveData(dataFormatted);
+    setDataList(dataFormatted);
+    let newCategory: CategoryItemProps[] = categories ? JSON.parse(categories) : [];;
+    newCategory = newCategory.filter(data => {
+      data.status = false;
+      let val: boolean;
+      for (let i = 0; i < dataFormatted.length; i++) {
+        if (data.id === dataFormatted[i].category) {
+          val = true;
+          return true;
+        }
+      }
+      if (val === true)
+        return true;
+      else return false;
+    })
+    if (newCategory.length != 0)
+      setCategories(newCategory);
+
+    // setCategories(JSON.parse(categories!));
+  }
+
+  async function deleteList(id: string) {
+    try {
+
+      const data = await AsyncStorage.getItem(dataListKey);
+      const categories = await AsyncStorage.getItem(dataCategoriesKey);
+      let newList: ListHomeProps[] = data ? JSON.parse(data) : [];
+      newList = newList.filter(item => {
+        if (item.id != id) return true;
+        else return false;
+      })
+      console.log("Lista: " + newList);
+      await AsyncStorage.setItem(dataListKey, JSON.stringify(newList));
+    } catch (error) {
+      Alert.alert("Erro ao deletar lista")
+    }
+    loadData();
+    // let oldDataList: ListHomeProps[] = data ? JSON.parse(data) : [];
+    // let oldCategories: CategoryItemProps[] = categories ? JSON.parse(categories) : [];
+    // oldCategories = oldCategories.filter(data => {
+    //   let val: boolean;
+    //   for (let i = 0; i < oldDataList.length; i++) {
+    //     if (data.id === oldDataList[i].category) {
+    //       val = true;
+    //       return true;
+    //     }
+    //   }
+    //   if (val === true)
+    //     return true;
+    //   else return false;
+    // })
+    // console.log("Valores: ", oldCategories)
+    // setCategories([...oldCategories]);
+  }
+
 
   function handleChangeScreen() {
     const categorySelected = {
@@ -79,68 +161,44 @@ export function Home() {
     navigation.navigate('CreateList', { categorySelected });
   }
 
-  function filterList(category: string, index: number) {
-    let listFiltred: ListHomeProps[] = [];
-    if (category === categoryShow) {
-      let newCategories = categories;
-      newCategories[index].status = false;
-      setCategories(newCategories)
-      listFiltred = saveData;
-    } else {
-      listFiltred = saveData.filter(data => {
-        let newCategories = categories;
-        if (data.category === category) {
-          newCategories = categories.map(data => {
-            if (data.id === category) {
-              data.status = !data.status;
 
-            } else {
-              data.status = false;
-            }
-            return data;
-          })
+  function filterList(category: string, indexElement: number) {
+    let dataTemp = categories;
+    dataTemp.map(function (data, index) {
+      if (indexElement === index) {
+        if (data.status === true) {
+          setDataList([...saveData]);
+          data.status = !data.status
+
+        } else {
+          let listFiltred = saveData;
+          listFiltred = listFiltred.filter(data => {
+            return data.category === category;
+          });
+          setDataList(listFiltred);
+          data.status = !data.status
         }
-        setCategories(newCategories);
-        return data.category === category;
-      });
-    }
-    setCategoryShow(category)
-    setDataList(listFiltred);
+        // setCategoryShow(category)
+
+      } else {
+        data.status = false
+      }
+      return data;
+    })
+
+    setCategories([...dataTemp]);
+
+
+
+
+
   }
+
 
   let dataFormatted: ListHomeProps[] = [];
 
   useEffect(() => {
-    async function loadData() {
-      const data = await AsyncStorage.getItem(dataListKey);
-      const categories = await AsyncStorage.getItem(dataCategoriesKey);
-      let categoriesF: CategoryItemProps[] = JSON.parse(categories)
-      let dataF: ListProps[] = JSON.parse(data!);
 
-      dataF.map((data) => {
-        iconData.map((icon) => {
-          if (data?.icon === icon?.id) {
-            const newIcon = icon;
-            const newData: ListHomeProps = {
-              id: data.id,
-              name: data.name,
-              icon: newIcon,
-              category: data.category,
-              spendingLimit: data.spendingLimit,
-            }
-            dataFormatted.push(newData);
-          }
-        })
-      });
-      setSaveData(dataFormatted);
-      setDataList(dataFormatted);
-      let newCategory: CategoryItemProps[] = JSON.parse(categories);
-      newCategory = newCategory.filter(data => {
-        data.status = false;
-        return data;
-      })
-      setCategories(JSON.parse(categories!));
-    }
     loadData();
 
     // async function removeAll() {
@@ -160,6 +218,10 @@ export function Home() {
     }
     navigation.navigate("ListItems", { list })
   }
+
+
+
+
   return (
     <Container>
       <Header>
@@ -176,54 +238,63 @@ export function Home() {
             <FilterSvg width={42} height={42} />
           </SettingButton>
         </Top>
-        <Bottom>
+        {/* <Bottom>
           <TitleDay>
             Dia de compras
           </TitleDay>
           <SubTitleDay>
             Voce quer fazer compras para ?
           </SubTitleDay>
-        </Bottom>
+        </Bottom> */}
       </Header>
-      {categories.length &&
-        <ListCategory>
-          <FlatList<CategoryItemProps>
-            data={categories}
-            horizontal
-            contentContainerStyle={{
-              paddingHorizontal: 12
-            }}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={item => item.id}
-            renderItem={({ item, index }) =>
-              <CategoryItem title={item.title} status={item.status} onPress={() => filterList(item.id, index)} />
-            }
-          />
-        </ListCategory>
-      }
-      <Content>
-        {dataList.length ?
-          <>
-            <ListItems>
-              <FlatList<ListHomeProps>
-                data={dataList}
-                showsVerticalScrollIndicator={false}
-                keyExtractor={item => item.id}
-                numColumns={2}
-                columnWrapperStyle={{ justifyContent: 'space-between' }}
-                renderItem={({ item }) =>
-                  < ItemGroup id={item.id} title={item.name} icon={item.icon.Icon} onPress={() => handleList(item)} />
-                }
-              />
-            </ListItems>
-          </> :
-          <NoItem />
+      <Body>
+        {categories.length &&
+          <ListCategory>
+            <FlatList<CategoryItemProps>
+              data={categories}
+              horizontal
+              contentContainerStyle={{
+                paddingHorizontal: 12
+              }}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={item => item.id}
+              renderItem={({ item, index }) =>
+                <CategoryItem title={item.title} status={item.status} onPress={() => filterList(item.id, index)} />
+              }
+            />
+          </ListCategory>
         }
+        <Content>
+          {dataList.length ?
+            <>
+              <ListItems>
+                <SwipeListView<ListHomeProps>
+                  data={dataList}
+                  showsHorizontalScrollIndicator={false}
+                  showsVerticalScrollIndicator={false}
+                  leftOpenValue={50}
+                  rightOpenValue={-70}
+                  keyExtractor={item => item.id}
+                  // numColumns={2}
+                  // columnWrapperStyle={{ justifyContent: 'space-between' }}
+                  renderItem={({ item }) =>
+                    < ItemGroup id={item.id} title={item.name} icon={item.icon.Icon} onPress={() => handleList(item)} />
+                  }
 
-        <ButtonAction title="Adicionar lista" disabled={false} onPress={handleChangeScreen} />
-
-      </Content>
-
+                  disableRightSwipe={true}
+                  renderHiddenItem={({ item, index }) => <ListDelete mode={false} onDelete={() => deleteList(item.id)} />}
+                />
+              </ListItems>
+            </> :
+            <NoItem />
+          }
+        </Content>
+      </Body>
+      <BottomArea>
+        <ButtonAction title="Nova lista" disabled={false} onPress={handleChangeScreen} />
+      </BottomArea>
     </Container>
+
+
   );
 }

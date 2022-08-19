@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
-
-export const Container = styled.TouchableHighlight`
+interface ListDeleteProps {
+  mode: boolean;
+}
+export const Container = styled.TouchableHighlight<ListDeleteProps>`
  border:.5px solid ${({ theme }) => theme.colors.primary};
  /* width:310px; */
  width: 100%;
@@ -8,7 +10,8 @@ export const Container = styled.TouchableHighlight`
  padding:0 12px 16px;
  border-radius:4px;
  justify-content:space-between;
- margin-bottom:12px;
+ margin-bottom:${({ mode }) => mode ? "12px" : "0"};
+ margin-top:${({ mode }) => mode ? "0" : "12px"};;
  background-color: ${({ theme }) => theme.colors.alert};
 `;
 

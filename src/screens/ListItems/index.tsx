@@ -216,7 +216,7 @@ export function ListItems() {
               <BuyItem id={item.id} title={item.title} price={item.price} quantity={item.quantity} total={item.total} status={item.status} onPress={() => buyItem(index, item.id)} onLongPress={() => { editItem(item) }} />
             }
             disableRightSwipe={true}
-            renderHiddenItem={({ item, index }) => <ListDelete onDelete={() => deleteItem(item.id)} />}
+            renderHiddenItem={({ item, index }) => <ListDelete mode={true} onDelete={() => deleteItem(item.id)} />}
           /> :
           <NoItem />
         }

@@ -4,11 +4,10 @@ interface CategoryItemProps {
   status: boolean;
 }
 export const Container = styled.TouchableOpacity<CategoryItemProps>`
-width: 120px;
  height: 38px;
  border-radius:2px;
- background-color: ${({ theme, status }) => status ? theme.colors.iconBackground : theme.colors.cardBackground};
- border:.2px solid ${({ theme }) => theme.colors.primary};
+ background-color: ${({ theme, status }) => status ? theme.colors.primary : "transparent"};
+ border: ${({ status }) => status ? "0" : ".5px"} solid ${({ theme }) => theme.colors.secondary};
  justify-content:center;
  align-items: center;
  margin-left:12px;
@@ -16,5 +15,6 @@ width: 120px;
 export const Title = styled.Text`
  font-family: ${({ theme }) => theme.fonts.Primary400};
   font-size:${RFValue(18)}px;
-  color:${({ theme }) => theme.colors.primary};
+  margin:0 24px;
+  color:${({ theme }) => theme.colors.text.primary};
 `;

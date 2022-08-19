@@ -93,6 +93,7 @@ export function Categories() {
     })
     setData([...dataTemp]);
   }
+
   useEffect(() => {
     async function loadData() {
       const data = await AsyncStorage.getItem(dataCategoriesKey);

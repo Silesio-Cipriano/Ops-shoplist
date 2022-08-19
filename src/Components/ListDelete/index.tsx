@@ -7,11 +7,12 @@ import {
 
 interface ListDeleteProps {
   onDelete: () => void;
+  mode: boolean;
 }
 
-export function ListDelete({ onDelete }: ListDeleteProps) {
+export function ListDelete({ onDelete, mode }: ListDeleteProps) {
   return (
-    <Container onPress={onDelete} underlayColor={"#828182"} activeOpacity={1}>
+    <Container mode={mode} onPress={onDelete} underlayColor={"#828182"} activeOpacity={1}>
       <IconArea>
         <Feather name="trash" size={28} color="white" />
       </IconArea>

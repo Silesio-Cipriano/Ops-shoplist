@@ -1,9 +1,14 @@
 import React, { ReactNode } from 'react';
-
+import { Feather } from '@expo/vector-icons'
+import { useTheme } from 'styled-components';
 import PopCornSvg from '../../assets/ItemGroup/Icon_popcorn.svg'
 import {
   Container,
-  Title
+  Title,
+  Info,
+  Limited,
+  Cost,
+  More,
 } from './styles';
 interface CategoryItemProps {
   id: string;
@@ -12,12 +17,24 @@ interface CategoryItemProps {
   onPress: () => void;
 }
 export function ItemGroup({ id, title, icon, onPress }: CategoryItemProps) {
+  const theme = useTheme();
   return (
-    <Container onPress={onPress}>
+    <Container activeOpacity={1} onPress={onPress}>
       {icon}
-      <Title>
-        {title}
-      </Title>
+      <Info>
+        <Title>
+          {title}
+        </Title>
+        <More>
+          <Limited>
+            Limite: 20000 Mtn
+          </Limited>
+          <Cost>
+            |  Itens: 6
+          </Cost>
+        </More>
+      </Info>
+      <Feather name="chevron-right" size={24} color={theme.colors.secondary} />
     </Container>
   );
 }

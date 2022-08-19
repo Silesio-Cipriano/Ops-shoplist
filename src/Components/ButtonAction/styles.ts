@@ -13,7 +13,7 @@ export const Container = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   background-color:${({ theme, disabled }) => disabled ? theme.colors.inative : theme.colors.primary};
-  border-radius:10px;
+  border-radius:4px;
   margin-top:12px;
 `;
 

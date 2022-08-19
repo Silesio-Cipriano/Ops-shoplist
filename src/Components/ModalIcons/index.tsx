@@ -58,7 +58,7 @@ export function ModalIcons({ visible, fModalVisible, fChangeIcon }: ModalIconsPr
           <HeaderModal>
             <TitleModal>Icons</TitleModal>
             <TouchableOpacity onPress={fModalVisible}>
-              <Feather name="x" size={26} color={theme.colors.primary} />
+              <Feather name="x" size={26} color={theme.colors.secondary} />
             </TouchableOpacity>
           </HeaderModal>
           <IconsArea>

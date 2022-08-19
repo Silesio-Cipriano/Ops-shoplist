@@ -4,12 +4,12 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
  flex: 1;
  justify-content:space-between;
- padding-bottom: 32px;
+ padding-bottom: 12px;
  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Header = styled.View`
-  padding: 32px 24px;
+  padding: 32px 24px 0;
 `
 export const ButtonBack = styled.View`
   flex-direction:row;
@@ -18,27 +18,38 @@ export const ButtonBack = styled.View`
 `
 export const Name = styled.Text`
   font-size:${RFValue(18)}px;
-  color:${({ theme }) => theme.colors.primary};
+  color:${({ theme }) => theme.colors.text.primary};
   font-family: ${({ theme }) => theme.fonts.Primary600};
   width: 80px;
   padding-left:10px;
 `;
 export const Left = styled.TouchableOpacity`
   flex-direction:row;
+  align-items: center;
 `;
+export const IconBack = styled.View`
+  width:45px;
+  height:45px;
+  align-items: center;
+  border-radius:4px;
+
+  justify-content: center;
+background-color: ${({ theme }) => theme.colors.buttonBackBorder};
+`
 export const Icon = styled.TouchableOpacity`
+
 `
 export const Top = styled.View`
   margin-top:12px;
 `
 export const Limit = styled.Text`
   font-size:${RFValue(18)}px;
-  color:${({ theme }) => theme.colors.primary};
+  color:${({ theme }) => theme.colors.text.primary};
   font-family: ${({ theme }) => theme.fonts.Primary600};
 `
 export const Limited = styled.Text`
   font-size:${RFValue(18)}px;
-  color:${({ theme }) => theme.colors.primary};
+  color:${({ theme }) => theme.colors.text.primary};
   font-family: ${({ theme }) => theme.fonts.Primary400};
 `
 export const Cost = styled.Text`
@@ -48,7 +59,7 @@ export const Cost = styled.Text`
 `
 export const Item = styled.Text`
   font-size:${RFValue(18)}px;
-  color:${({ theme }) => theme.colors.primary};
+  color:${({ theme }) => theme.colors.text.primary};
   font-family: ${({ theme }) => theme.fonts.Primary400};
 `
 export const Content = styled.View` 

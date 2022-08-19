@@ -8,11 +8,17 @@ export const Container = styled.TouchableOpacity`
   padding:0 8px;
   margin-top:12px;
   border-radius:2px;
-  border:.5px solid ${({ theme }) => theme.colors.secondary};;
-  justify-content:space-around;
+  border:.5px solid ${({ theme }) => theme.colors.secondary};
+  justify-content:space-between;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.background}
+  background-color: ${({ theme }) => theme.colors.background};
 `;
+
+export const Content = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
 export const Title = styled.Text`
   font-size:${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.Primary700};
@@ -22,20 +28,19 @@ export const Title = styled.Text`
 
 export const Info = styled.View`
 flex-direction: column;
-justify-content:space-around;
 `
 export const Limited = styled.Text`
 font-size:${RFValue(14)}px;
   font-family: ${({ theme }) => theme.fonts.Primary400};
   color: ${({ theme }) => theme.colors.text.primary};
-  margin-right:8px;
 `
+
 export const Cost = styled.Text`
-font-size:${RFValue(14)}px;
+  font-size:${RFValue(14)}px;
   font-family: ${({ theme }) => theme.fonts.Primary400};
   color: ${({ theme }) => theme.colors.text.primary};
 `
 export const More = styled.View`
   flex-direction: row;
-  margin-top:10px;
+  margin-top:8px;
 `

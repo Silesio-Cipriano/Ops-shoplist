@@ -8,7 +8,7 @@ export const Container = styled.TextInput.attrs({
   font-size:${RFValue(20)}px;
   font-family:${({ theme, value }) => value ? theme.fonts.Primary600 : theme.fonts.Primary400};
   border-bottom-width: 1px;
-  border-color: ${({ theme }) => theme.colors.primary};
-  color:${({ theme }) => theme.colors.primary};
+  border-color: ${({ theme }) => theme.colors.secondary};
+  color:${({ theme }) => theme.colors.secondary};
   margin-bottom:12px;
 `;

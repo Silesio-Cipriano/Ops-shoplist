@@ -5,8 +5,6 @@ import { Home } from "../screens/Home";
 import { CreateList } from "../screens/CreateList";
 import { Categories } from "../screens/Categories";
 import { ListItems } from "../screens/ListItems";
-import { CreateItem } from "../screens/CreateItem";
-import { EditItem } from "../screens/EditItem";
 import { EditList } from "../screens/EditList";
 import { Register } from "../screens/Register";
 
@@ -37,14 +35,7 @@ export function AppRoutes() {
         name="ListItems"
         component={ListItems}
       />
-      <Screen
-        name="CreateItem"
-        component={CreateItem}
-      />
-      <Screen
-        name="EditItem"
-        component={EditItem}
-      />
+
       <Screen
         name="EditList"
         component={EditList}

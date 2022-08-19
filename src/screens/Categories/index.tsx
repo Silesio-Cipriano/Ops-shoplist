@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   Container,
-  Category,
   InputCategory,
   Input,
   BtnAddCategory,
@@ -17,6 +16,9 @@ import {
 import { CategoryElement } from '../../Components/CategoryElement';
 import { ButtonAction } from '../../Components/ButtonAction';
 import { dataKey } from '../../utils/dataKey';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { CategoryDelete } from '../../Components/CategoryDelete';
+import { BackButton } from '../../Components/BackButton';
 
 interface CategoryElementProps {
   id: string;
@@ -36,14 +38,25 @@ export function Categories() {
 
   const [data, setData] = useState<CategoryElementProps[]>();
   const [text, setText] = useState("");
-  const [categorySelected, setCategorySelected] = useState<CategorySelectedProps>({
+  const category = {
     id: "-1",
     title: "Escolher"
-  });
+  };
+  const [categorySelected, setCategorySelected] = useState<CategorySelectedProps>(
+    category
+  );
   const [disableButton, setDisableButton] = useState(true);
 
   function handleChangeScreen() {
+    console.log(categorySelected);
     navigation.navigate('CreateList', { categorySelected });
+  }
+
+  function backScreen() {
+    setCategorySelected(
+      category
+    )
+    handleChangeScreen();
   }
 
   async function handleAddCategory() {
@@ -59,12 +72,11 @@ export function Categories() {
         const data = await AsyncStorage.getItem(dataCategoriesKey);
         const currentData = data ? JSON.parse(data) : [];
         const dataUpdate = [
-          ...currentData,
-          newCategory
+          newCategory,
+          ...currentData
         ]
         await AsyncStorage.setItem(dataCategoriesKey, JSON.stringify(dataUpdate));
         setData(dataUpdate);
-        console.log("Salvo");
       } catch (error) {
         console.log(error);
         Alert.alert("Nao foi possivel adicionar categoria");
@@ -74,7 +86,18 @@ export function Categories() {
 
 
   }
-
+  async function deleteCategory(id: string) {
+    let dataTemp = data;
+    dataTemp = dataTemp.filter(data => {
+      return data.id !== id;
+    })
+    setData([...dataTemp]);
+    try {
+      await AsyncStorage.setItem(dataCategoriesKey, JSON.stringify(dataTemp));
+    } catch (error) {
+      Alert.alert("Nao foi possivel deletar")
+    }
+  }
   function selectedElement(indexElement: number) {
     let dataTemp = data;
 
@@ -98,7 +121,6 @@ export function Categories() {
     async function loadData() {
       const data = await AsyncStorage.getItem(dataCategoriesKey);
       setData(JSON.parse(data!));
-      console.log(JSON.parse(data!));
     }
     loadData();
 
@@ -109,7 +131,7 @@ export function Categories() {
   }, []);
   return (
     <Container>
-      <Category>Categoria</Category>
+      <BackButton name="Categorias" onPress={() => backScreen()} />
 
       <InputCategory>
         <Input
@@ -126,14 +148,19 @@ export function Categories() {
       </BtnAddCategory>
 
       <CategoriesList>
-        <FlatList<CategoryElementProps>
+        <SwipeListView<CategoryElementProps>
           style={{ flex: 1 }}
           data={data}
           showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id}
           renderItem={({ item, index }) =>
             <CategoryElement title={item.title} onPress={() => selectedElement(index)} selected={item.selected} />
           }
+          leftOpenValue={50}
+          rightOpenValue={-70}
+          disableRightSwipe={true}
+          renderHiddenItem={({ item, index }) => <CategoryDelete onDelete={() => deleteCategory(item.id)} />}
         />
       </CategoriesList>
 

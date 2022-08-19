@@ -2,7 +2,7 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
- padding:48px 0;
+ padding:48px 0 12px;
  height: 100%;
  justify-content:space-between;
  background-color: ${({ theme }) => theme.colors.background};
@@ -22,12 +22,12 @@ export const Top = styled.View`
 export const Greeting = styled.View``
 export const Hello = styled.Text`
   font-family: ${({ theme }) => theme.fonts.Primary400};
-  font-size:${RFValue(32)}px;
+  font-size:${RFValue(26)}px;
   color:${({ theme }) => theme.colors.text.primary};
 `
 export const NameUser = styled.Text`
   font-family: ${({ theme }) => theme.fonts.Primary600};
-  font-size:${RFValue(32)}px;
+  font-size:${RFValue(26)}px;
   color:${({ theme }) => theme.colors.text.primary};
 `
 export const SettingButton = styled.TouchableOpacity``;
@@ -62,6 +62,8 @@ export const Message = styled.Text`
   margin-bottom:38px;
 `;
 
+
+
 export const ListItems = styled.View`
   margin-top:4px;
   justify-content:center;
@@ -69,6 +71,4 @@ export const ListItems = styled.View`
 `;
 
 export const NoItemArea = styled.View`
-justify-content: center;
-align-items: center;
 `

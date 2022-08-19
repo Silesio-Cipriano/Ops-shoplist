@@ -69,7 +69,6 @@ export function Register() {
   function handleTextAgeChange(text: string) {
     if (true) {
       text = text.replace(/[^0-9]/g, '');
-
     }
     setAge(text);
   }

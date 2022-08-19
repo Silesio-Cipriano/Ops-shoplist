@@ -9,31 +9,34 @@ import {
   Limited,
   Cost,
   More,
+  Content,
 } from './styles';
 interface CategoryItemProps {
   id: string;
-  title: string;
+  name: string;
   icon: ReactNode;
+  spendingLimit: string;
   onPress: () => void;
+  onLongPress: () => void;
 }
-export function ItemGroup({ id, title, icon, onPress }: CategoryItemProps) {
+export function ItemGroup({ id, name, icon, spendingLimit, onPress, onLongPress }: CategoryItemProps) {
   const theme = useTheme();
   return (
-    <Container activeOpacity={1} onPress={onPress}>
-      {icon}
-      <Info>
-        <Title>
-          {title}
-        </Title>
-        <More>
-          <Limited>
-            Limite: 20000 Mtn
-          </Limited>
-          <Cost>
-            |  Itens: 6
-          </Cost>
-        </More>
-      </Info>
+    <Container activeOpacity={1} onPress={onPress} onLongPress={onLongPress}>
+      <Content>
+        {icon}
+        <Info>
+          <Title>
+            {name}
+          </Title>
+          <More>
+            <Limited>
+              Limite: {spendingLimit} Mtn
+            </Limited>
+          </More>
+        </Info>
+      </Content>
+
       <Feather name="chevron-right" size={24} color={theme.colors.secondary} />
     </Container>
   );

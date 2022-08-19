@@ -20,7 +20,7 @@ export const HeaderModal = styled.View`
 export const TitleModal = styled.Text`
   font-size:${RFValue(24)}px;
   font-family: ${({ theme }) => theme.fonts.Primary600};
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.secondary};
 `;
 export const BodyModal = styled.View`
 padding:0 24px;
@@ -37,6 +37,6 @@ height:82px;
 justify-content:center;
 align-items: center;
 margin-bottom:24px;
-background-color:${({ theme }) => theme.colors.iconBackground};
+background-color:${({ theme }) => theme.colors.primary};
 border-radius:4px;
 `

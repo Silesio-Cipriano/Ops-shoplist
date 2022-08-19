@@ -1,5 +1,6 @@
 import React from 'react';
-
+import DashedLine from 'react-native-dashed-line';
+import { useTheme } from 'styled-components';
 import {
   Container,
   Top,
@@ -14,7 +15,7 @@ import {
 
 interface ListItemsProps {
   id: string;
-  title: string;
+  name: string;
   quantity: number,
   price: number,
   total: number,
@@ -22,16 +23,18 @@ interface ListItemsProps {
   onPress: () => void;
   onLongPress: () => void;
 }
-
-export function BuyItem({ id, price, title, quantity, total, onPress, onLongPress, status }: ListItemsProps) {
+export function BuyItem({ id, price, name, quantity, total, onPress, onLongPress, status }: ListItemsProps) {
+  const theme = useTheme();
 
   return (
     <Container onLongPress={onLongPress} onPress={onPress} status={status} activeOpacity={1}>
       <Line />
       <Top>
-        <Title status={status}>{title}</Title>
+        <Title status={status}>{name}</Title>
       </Top>
-      <LineCentral />
+      <LineCentral>
+        <DashedLine dashLength={4} dashThickness={1.2} dashGap={6} dashColor={theme.colors.text.secondary} />
+      </LineCentral>
       <Bottom>
         <BottomElement>
           <Quantite status={status}>

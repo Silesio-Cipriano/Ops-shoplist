@@ -2,37 +2,31 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  padding:80px 24px 0;
+  padding:0 24px 0;
 `;
 
-export const Category = styled.Text`
-  font-size: ${RFValue(24)}px;
-  font-family: ${({ theme }) => theme.fonts.Primary600};
-  color: ${({ theme }) => theme.colors.primary};
-`
+
 export const InputCategory = styled.View`
   flex-direction: row;
   justify-content:space-between;
   align-items: center;
-
+  margin-top:24px;
   border-bottom-width: 1px;
 `
 export const Input = styled.TextInput`
-  font-size: ${RFValue(20)}px;
-  font-family: ${({ theme }) => theme.fonts.Primary400};
-  color: ${({ theme }) => theme.colors.primary};
+  font-size: ${RFValue(24)}px;
+  font-family: ${({ theme }) => theme.fonts.Primary500};
+  color: ${({ theme }) => theme.colors.text.primary};
   width:100%;
   height:34px;
   margin-top:8px;
-  margin-bottom:8px;
-  padding:4px;
 `
 export const FlexDirection = styled.View`
   flex-direction: row;
 `
 export const BtnAddCategory = styled.TouchableOpacity`
   padding:8px;
-  background-color: ${({ theme }) => theme.colors.iconBackground};
+  background-color: ${({ theme }) => theme.colors.primary};
   border-radius:2px;
   width: 100%;
   align-items: center;

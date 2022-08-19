@@ -43,6 +43,7 @@ interface ListProps {
   icon: string;
   category: string;
   cost?: string;
+  items: number;
 }
 
 type Params = any;
@@ -59,9 +60,9 @@ export function EditList() {
   const [spendingLimit, setSpendingLimit] = useState(Number(oldList.spendingLimit) + "");
   const [name, setName] = useState(oldList.name);
   const data = iconData;
-  console.log("OldList: ", oldList);
   const [visibleModal, setVisibleModal] = useState(false);
   const [iconSelected, setIconSelected] = useState<IconProps>(data[Number(oldList.icon) - 1]);
+
   const [categoryListSelected, setCategoryListSelected] = useState({
     id: "-1",
     title: "Escolher"
@@ -74,6 +75,9 @@ export function EditList() {
   const [buttonStatus, setButtonStatus] = useState(true);
   const [indexStatus, setIndexStatus] = useState(0);
 
+  function handleChangeScreen() {
+    navigation.navigate('Categories', { categoryListSelected });
+  }
 
   function handleModalVisible() {
     setVisibleModal(!visibleModal);
@@ -92,7 +96,8 @@ export function EditList() {
       name: name,
       spendingLimit: Number(spendingLimit),
       icon: iconSelected.id,
-      category: ""
+      category: "",
+      items: 0,
     }
 
     try {
@@ -110,9 +115,10 @@ export function EditList() {
       })
       list.name = newList.name;
       list.spendingLimit = newList.spendingLimit;
+      list.category = newList.category;
       list.icon = newList.icon;
       await AsyncStorage.setItem(dataListKey, JSON.stringify(currentData));
-      navigation.navigate("ListItems", { list });
+      navigation.goBack();
     } catch (error) {
       console.log(error);
       Alert.alert("Nao foi possivel adicionar categoria");
@@ -157,9 +163,16 @@ export function EditList() {
           {iconSelected.Icon}
         </IconArea>
         <InputArea>
-          <Input name={name} titlePlaceholder='Nome' handleTextChange={handleTextChange} />
-          <Input name={spendingLimit} titlePlaceholder='Limite de gasto' handleTextChange={handleTextCostChange} />
+          <Input typeNumeric={false} name={name} titlePlaceholder='Nome' handleTextChange={handleTextChange} />
+          <Input typeNumeric={true} name={spendingLimit} titlePlaceholder='Limite de gasto' handleTextChange={handleTextCostChange} />
         </InputArea>
+        {/* <CategoryArea>
+          <CategoryTitle>Categoria</CategoryTitle>
+          <CategoryButton onPress={handleChangeScreen}>
+            <TitleButton>{categoryListSelected.title}</TitleButton>
+            <Feather name="chevron-right" size={34} color={theme.colors.text.primary} />
+          </CategoryButton>
+        </CategoryArea> */}
         <ModalIcons fModalVisible={handleModalVisible} visible={visibleModal} fChangeIcon={handleChangeIconCategory} />
       </Content>
       <ButtonAction title="Editar lista" disabled={false} onPress={() => { handleUpdateItem() }} />

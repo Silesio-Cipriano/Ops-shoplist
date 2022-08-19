@@ -5,12 +5,12 @@ interface ListItemsProps {
   status: boolean;
 }
 export const Container = styled.TouchableOpacity<ListItemsProps>`
- border:${({ status }) => status ? 0 : .5}px solid ${({ theme }) => theme.colors.primary};
- background-color: ${({ theme, status }) => status ? theme.colors.primary : theme.colors.background};
+ border:${({ status }) => status ? 0 : .5}px solid ${({ theme }) => theme.colors.secondary};
+ background-color: ${({ theme, status }) => status ? theme.colors.secondary : theme.colors.background};
  /* width:310px; */
  width: 100%;
  height: 100px;
- padding:0 12px 16px;
+ padding:0 0 16px;
  border-radius:4px;
  justify-content:space-between;
  margin-bottom:12px;
@@ -25,35 +25,38 @@ flex-direction: row;
 `
 export const Top = styled.View`
   flex-direction: row;
-
+  padding:0 12px;
 `
 export const Title = styled.Text<ListItemsProps>`
   font-size:${RFValue(20)}px;
-  color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
+  color: ${({ theme, status }) => status ? theme.colors.text.secondary : theme.colors.text.primary};
 
   font-family: ${({ theme }) => theme.fonts.Primary700};
 `
 
 export const LineCentral = styled.View`
-  width: 100%;
-  height: 1px;
-  color:red;
+width: 90%;
+height: 5px;
+padding:8px 0;
+justify-content:center;
+margin:0 auto;
 `
 export const Bottom = styled.View`
   flex-direction: row;
   justify-content:space-between;
+  padding:0 12px;
+
 `
 export const BottomElement = styled.View``;
 export const Quantite = styled.Text<ListItemsProps>`
   font-size:${RFValue(14)}px;
-  color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
+  color: ${({ theme, status }) => status ? theme.colors.text.secondary : theme.colors.text.primary};
 
   font-family: ${({ theme }) => theme.fonts.Primary600};
 
 `
 export const Qtd = styled.Text<ListItemsProps>`
   font-size:${RFValue(14)}px;
-  color: ${({ theme, status }) => status ? theme.colors.text.primary : theme.colors.primary};
-
+  color: ${({ theme, status }) => status ? theme.colors.text.secondary : theme.colors.text.primary};
   font-family: ${({ theme }) => theme.fonts.Primary400};
 `

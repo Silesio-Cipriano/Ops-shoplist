@@ -30,11 +30,14 @@ import {
   ListItems,
   Body,
   BottomArea,
+  NoItemArea,
 } from './styles';
 import { dataKey } from '../../utils/dataKey';
 import { NoItem } from '../../Components/NoItem';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { ListDelete } from '../../Components/ListDelete';
+import { useAuth } from '../../hooks/auth';
+import { useTheme } from 'styled-components';
 interface CategoryItemProps {
   id: string;
   title: string;
@@ -61,6 +64,7 @@ interface ListProps {
 }
 
 export function Home() {
+  const { user } = useAuth();
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dataListKey = dataKey.list;
   const dataCategoriesKey = dataKey.categories;
@@ -78,7 +82,7 @@ export function Home() {
 
   async function loadData() {
     const data = await AsyncStorage.getItem(dataListKey);
-    const categories = await AsyncStorage.getItem(dataCategoriesKey);
+    const cat = await AsyncStorage.getItem(dataCategoriesKey);
     let dataF: ListProps[] = data ? JSON.parse(data) : [];
 
     dataF.map((data) => {
@@ -98,7 +102,7 @@ export function Home() {
     });
     setSaveData(dataFormatted);
     setDataList(dataFormatted);
-    let newCategory: CategoryItemProps[] = categories ? JSON.parse(categories) : [];;
+    let newCategory: CategoryItemProps[] = cat ? JSON.parse(cat) : [];;
     newCategory = newCategory.filter(data => {
       data.status = false;
       let val: boolean;
@@ -114,9 +118,22 @@ export function Home() {
     })
     if (newCategory.length != 0)
       setCategories(newCategory);
-
-    // setCategories(JSON.parse(categories!));
+    else {
+      setCategories(null);
+    }
   }
+
+  function handleEditList(element: ListHomeProps) {
+    const list: ListProps = {
+      id: element.id,
+      name: element.name,
+      category: element.category,
+      icon: element.icon.id,
+      spendingLimit: element.spendingLimit
+    }
+    navigation.navigate('EditList', { list });
+  }
+
 
   async function deleteList(id: string) {
     try {
@@ -134,22 +151,7 @@ export function Home() {
       Alert.alert("Erro ao deletar lista")
     }
     loadData();
-    // let oldDataList: ListHomeProps[] = data ? JSON.parse(data) : [];
-    // let oldCategories: CategoryItemProps[] = categories ? JSON.parse(categories) : [];
-    // oldCategories = oldCategories.filter(data => {
-    //   let val: boolean;
-    //   for (let i = 0; i < oldDataList.length; i++) {
-    //     if (data.id === oldDataList[i].category) {
-    //       val = true;
-    //       return true;
-    //     }
-    //   }
-    //   if (val === true)
-    //     return true;
-    //   else return false;
-    // })
-    // console.log("Valores: ", oldCategories)
-    // setCategories([...oldCategories]);
+
   }
 
 
@@ -220,8 +222,7 @@ export function Home() {
   }
 
 
-
-
+  const theme = useTheme();
   return (
     <Container>
       <Header>
@@ -231,11 +232,11 @@ export function Home() {
               Olá,
             </Hello>
             <NameUser>
-              Silesio
+              {user.name.split(' ')[0]}
             </NameUser>
           </Greeting>
           <SettingButton>
-            <FilterSvg width={42} height={42} />
+            <FilterSvg width={38} height={38} />
           </SettingButton>
         </Top>
         {/* <Bottom>
@@ -248,7 +249,7 @@ export function Home() {
         </Bottom> */}
       </Header>
       <Body>
-        {categories.length &&
+        {categories &&
           <ListCategory>
             <FlatList<CategoryItemProps>
               data={categories}
@@ -275,10 +276,8 @@ export function Home() {
                   leftOpenValue={50}
                   rightOpenValue={-70}
                   keyExtractor={item => item.id}
-                  // numColumns={2}
-                  // columnWrapperStyle={{ justifyContent: 'space-between' }}
                   renderItem={({ item }) =>
-                    < ItemGroup id={item.id} title={item.name} icon={item.icon.Icon} onPress={() => handleList(item)} />
+                    < ItemGroup id={item.id} name={item.name} spendingLimit={item.spendingLimit} icon={item.icon.Icon} onPress={() => handleList(item)} onLongPress={() => handleEditList(item)} />
                   }
 
                   disableRightSwipe={true}
@@ -286,7 +285,9 @@ export function Home() {
                 />
               </ListItems>
             </> :
-            <NoItem />
+            <NoItemArea>
+              <NoItem />
+            </NoItemArea>
           }
         </Content>
       </Body>

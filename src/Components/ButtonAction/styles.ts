@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 
 
 interface ButtonProps {
-  title: string;
   disabled: boolean;
 }
 
@@ -17,8 +16,8 @@ export const Container = styled.TouchableOpacity`
   margin-top:12px;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<ButtonProps>`
   font-family: ${({ theme }) => theme.fonts.Primary600};
   font-size:${RFValue(20)}px;
-  color:${({ theme }) => theme.colors.text.primary};
+  color:${({ theme, disabled }) => disabled ? theme.colors.text.inative : theme.colors.secondary};
 `

@@ -14,7 +14,7 @@ interface ButtonProps extends TouchableOpacityProps {
 export function ButtonAction({ title, disabled, onPress }: ButtonProps) {
   return (
     <Container disabled={disabled} onPress={onPress}>
-      <Title>{title}</Title>
+      <Title disabled={disabled}>{title}</Title>
     </Container>
   );
 }

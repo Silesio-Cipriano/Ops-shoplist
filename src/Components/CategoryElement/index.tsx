@@ -16,7 +16,7 @@ export function CategoryElement({ title, selected, onPress }: CategoryElementPro
   const [selecteds, setSelecteds] = useState(false);
 
   return (
-    <Container onPress={onPress}>
+    <Container activeOpacity={1} onPress={onPress}>
       <Title>{title}</Title>
       <SelectedElement selected={selected} />
     </Container>

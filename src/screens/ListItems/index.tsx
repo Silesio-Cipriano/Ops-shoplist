@@ -2,6 +2,8 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import uuid from 'react-native-uuid';
+
 import {
   Container,
   Header,
@@ -15,7 +17,8 @@ import {
   Cost,
   Item,
   Content,
-  Footer
+  Footer,
+  IconBack
 } from './styles';
 import { iconData, formatIcon } from '../../utils/iconData';
 import { useTheme } from 'styled-components';
@@ -27,15 +30,16 @@ import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { dataKey } from '../../utils/dataKey';
 import { NoItem } from '../../Components/NoItem';
+import { ModalNewItem } from '../../Components/ModalNewItem';
 
 interface ListItemsProps {
   id: string;
-  title: string;
-  quantity: number,
-  price: number,
-  total: number,
+  name: string;
+  quantity: string,
+  price: string,
+  total: string,
   listId?: string;
-  status?: boolean;
+  status: boolean;
 }
 interface IconProps {
   id?: string;
@@ -49,7 +53,11 @@ interface ListProps {
   spendingLimit?: string;
   cost?: string;
 }
-
+interface Item {
+  name: string;
+  quantity: string,
+  price: string,
+}
 type Params = any;
 
 export function ListItems() {
@@ -160,27 +168,156 @@ export function ListItems() {
     }
 
   }
+  const [statusButton, setButtonStatus] = useState(false);
+
+
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [selectedItem, setSelectedItem] = useState(false);
+  const [modalNewItemStatus, setModalNewItemStatus] = useState(false);
+  const [modalEditItemStatus, setModalEditItemStatus] = useState(false);
+
+  function clearItemStatus() {
+    setName("");
+    setPrice("");
+    setQuantity("");
+    setSelectedItem(false);
+  }
+  function handleNameText(text: string) {
+    setName(text);
+    actionButton();
+  }
+
+  function actionButton() {
+    if (name !== "" && price !== "" && quantity !== "") {
+      setButtonStatus(false);
+    } else {
+      setButtonStatus(true);
+    }
+  }
+
+  function handleModalNewItemVisible() {
+    setModalNewItemStatus(!modalNewItemStatus)
+  }
+  const [idItem, setIdItem] = useState("");
+  function handleModalEditItemVisible(item?: ListItemsProps) {
+    if (item) {
+      setIdItem(item.id);
+      setName(item.name);
+      setPrice(item.price);
+      setQuantity(item.quantity);
+      setSelectedItem(item.status);
+    }
+    setModalEditItemStatus(!modalEditItemStatus)
+  }
+
+  function handleSelectedItem() {
+    setSelectedItem(!selectedItem);
+  }
+
+  function handlePriceText(text: string) {
+    text = text.replace(/[^0-9]/g, '');
+    setPrice(text);
+    actionButton();
+  }
+  async function handleEditItem() {
+    const total = Number(price) * Number(quantity);
+
+    const newItem: ListItemsProps = {
+      id: idItem,
+      name: name,
+      price: price,
+      quantity: quantity,
+      total: total.toString(),
+      listId: list.id,
+      status: selectedItem
+    };
+
+    console.log(newItem);
+
+    try {
+      const data = await AsyncStorage.getItem(dataItemsKey);
+      const currentData: ListItemsProps[] = data ? JSON.parse(data) : [];
+      let newListItem = currentData.filter(item => {
+        if (item.id === newItem.id) {
+          item.name = newItem.name;
+          item.price = newItem.price;
+          item.quantity = newItem.quantity;
+          item.total = newItem.total;
+          item.status = newItem.status;
+        }
+        return item;
+      })
+      await AsyncStorage.setItem(dataItemsKey, JSON.stringify(newListItem));
+      handleModalEditItemVisible();
+      loadData();
+    } catch (error) {
+      Alert.alert("Nao foi capaz de criar o item");
+    }
+
+  }
+  async function handleAddItemList() {
+    const total = Number(price) * Number(quantity);
+    const costTotal = (Number(cost) + total);
+    if (Number(list.spendingLimit) < costTotal) {
+      console.log("O valor eh grande");
+    } else {
+      const newItem: ListItemsProps = {
+        id: uuid.v4().toString(),
+        name: name,
+        price: price,
+        quantity: quantity,
+        total: total.toString(),
+        listId: list.id,
+        status: selectedItem
+      };
+
+      try {
+        const data = await AsyncStorage.getItem(dataItemsKey);
+        const currentData = data ? JSON.parse(data) : [];
+        const dataUpdate = [
+          ...currentData,
+          newItem
+        ]
+        await AsyncStorage.setItem(dataItemsKey, JSON.stringify(dataUpdate));
+        handleModalNewItemVisible();
+      } catch (error) {
+        Alert.alert("Nao foi capaz de criar o item");
+      }
+    }
+    loadData();
+  }
+
+  async function loadData() {
+    const items = await AsyncStorage.getItem(dataItemsKey);
+
+    let listItems: ListItemsProps[] = JSON.parse(items);
+    let newListItems = listItems.filter(item => {
+
+      return item.listId === list.id;
+    });
+    let newCost = 0;
+    newListItems.map(item => {
+      if (item.status === true) {
+        newCost = newCost + Number(item.total);
+      }
+      return;
+    })
+    setCost(newCost);
+    list.cost = newCost.toString();
+    setListItems(newListItems);
+    clearItemStatus();
+  }
+
+
+  function handleQuantityText(text: string) {
+    text = text.replace(/[^0-9]/g, '');
+    setQuantity(text);
+    actionButton();
+  }
 
   useEffect(() => {
-    async function loadData() {
-      const items = await AsyncStorage.getItem(dataItemsKey);
-
-      let listItems: ListItemsProps[] = JSON.parse(items);
-      let newListItems = listItems.filter(item => {
-
-        return item.listId === list.id;
-      });
-      let newCost = 0;
-      newListItems.map(item => {
-        if (item.status === true) {
-          newCost = newCost + Number(item.total);
-        }
-        return;
-      })
-      setCost(newCost);
-      list.cost = newCost.toString();
-      setListItems(newListItems);
-    }
 
     loadData();
   }, [isFocused])
@@ -190,7 +327,9 @@ export function ListItems() {
       <Header>
         <ButtonBack>
           <Left onPress={handleBackScreen}>
-            <Feather name="chevron-left" size={34} color={useTheme().colors.primary} />
+            <IconBack>
+              <Feather name="chevron-left" size={34} color={useTheme().colors.secondary} />
+            </IconBack>
             <Name>{list.name}</Name>
           </Left>
           <Icon onPress={() => handleEditList(list)}>
@@ -213,17 +352,45 @@ export function ListItems() {
             leftOpenValue={50}
             rightOpenValue={-70}
             renderItem={({ item, index }) =>
-              <BuyItem id={item.id} title={item.title} price={item.price} quantity={item.quantity} total={item.total} status={item.status} onPress={() => buyItem(index, item.id)} onLongPress={() => { editItem(item) }} />
+              <BuyItem id={item.id} name={item.name} price={Number(item.price)} quantity={Number(item.quantity)} total={Number(item.total)} status={item.status} onPress={() => buyItem(index, item.id)} onLongPress={() => handleModalEditItemVisible(item)} />
             }
             disableRightSwipe={true}
             renderHiddenItem={({ item, index }) => <ListDelete mode={true} onDelete={() => deleteItem(item.id)} />}
           /> :
           <NoItem />
         }
+        <ModalNewItem
+          titleModal='Novo Item'
+          titleButton="Criar"
+          addItem={handleAddItemList}
+          name={name}
+          price={price}
+          quantity={quantity}
+          selected={selectedItem}
+          handleSelected={handleSelectedItem}
+          visible={modalNewItemStatus}
+          fModalVisible={handleModalNewItemVisible}
+          handleName={handleNameText}
+          handlePrice={handlePriceText}
+          handleQuantity={handleQuantityText} />
 
+        <ModalNewItem
+          titleModal='Editar Item'
+          titleButton="Salvar"
+          addItem={handleEditItem}
+          name={name}
+          price={price}
+          quantity={quantity}
+          selected={selectedItem}
+          handleSelected={handleSelectedItem}
+          visible={modalEditItemStatus}
+          fModalVisible={handleModalEditItemVisible}
+          handleName={handleNameText}
+          handlePrice={handlePriceText}
+          handleQuantity={handleQuantityText} />
       </Content>
       <Footer>
-        <ButtonAction title={"Adicionar Item"} disabled={false} onPress={handleCreateItemScreen} />
+        <ButtonAction title={"Adicionar Item"} disabled={false} onPress={handleModalNewItemVisible} />
       </Footer>
     </Container>
   );

@@ -21,12 +21,13 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { dataKey } from '../../utils/dataKey';
+import { useAuth } from '../../hooks/auth';
 
 
 
 export function Register() {
   const navigation = useNavigation<StackNavigationProp<any>>();
-
+  const { signIn } = useAuth();
   const [buttonStatus, setButtonStatus] = useState(true);
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -87,10 +88,8 @@ export function Register() {
       age: age,
     }
     try {
-
       await AsyncStorage.setItem(dataUserKey, JSON.stringify(user));
-      navigation.navigate("Home");
-
+      signIn();
     } catch (error) {
       console.log(error);
       Alert.alert("Nao foi possivel adicionar categoria");

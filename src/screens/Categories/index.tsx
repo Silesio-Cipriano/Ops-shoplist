@@ -19,6 +19,7 @@ import { dataKey } from '../../utils/dataKey';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { CategoryDelete } from '../../Components/CategoryDelete';
 import { BackButton } from '../../Components/BackButton';
+import { ModalDelete } from '../../Components/ModalDelete';
 
 interface CategoryElementProps {
   id: string;
@@ -31,10 +32,19 @@ interface CategorySelectedProps {
   title?: string;
 }
 
+interface ListProps {
+  id: string;
+  name: string;
+  icon: string;
+  category: string;
+  spendingLimit?: string;
+}
+
 export function Categories() {
   const dataCategoriesKey = dataKey.categories;
 
   const navigation = useNavigation<StackNavigationProp<any>>();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [data, setData] = useState<CategoryElementProps[]>();
   const [text, setText] = useState("");
@@ -47,8 +57,12 @@ export function Categories() {
   );
   const [disableButton, setDisableButton] = useState(true);
 
+
+  function handleModalVisible() {
+    setModalVisible(!modalVisible);
+  }
+
   function handleChangeScreen() {
-    console.log(categorySelected);
     navigation.navigate('CreateList', { categorySelected });
   }
 
@@ -86,6 +100,7 @@ export function Categories() {
 
 
   }
+  const dataListKey = dataKey.list;
   async function deleteCategory(id: string) {
     let dataTemp = data;
     dataTemp = dataTemp.filter(data => {
@@ -93,6 +108,13 @@ export function Categories() {
     })
     setData([...dataTemp]);
     try {
+      const dataList = await AsyncStorage.getItem(dataListKey);
+      let newDataList: ListProps[] = dataList ? JSON.parse(dataList) : [];
+      newDataList = newDataList.filter(data => {
+        return data.category != id
+      })
+      await AsyncStorage.setItem(dataListKey, JSON.stringify(newDataList));
+
       await AsyncStorage.setItem(dataCategoriesKey, JSON.stringify(dataTemp));
     } catch (error) {
       Alert.alert("Nao foi possivel deletar")
@@ -160,10 +182,14 @@ export function Categories() {
           leftOpenValue={50}
           rightOpenValue={-70}
           disableRightSwipe={true}
-          renderHiddenItem={({ item, index }) => <CategoryDelete onDelete={() => deleteCategory(item.id)} />}
+          renderHiddenItem={({ item, index }) => (<><CategoryDelete onDelete={handleModalVisible} />
+            <ModalDelete visible={modalVisible} onDelete={() => deleteCategory(item.id)} fModalVisible={handleModalVisible} />
+          </>
+          )
+          }
+
         />
       </CategoriesList>
-
       <ButtonAction disabled={disableButton} title="Continuar" onPress={handleChangeScreen} />
     </Container >
   );

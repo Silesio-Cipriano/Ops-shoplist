@@ -4,6 +4,8 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
  padding:32px 24px;
  align-items: center;
+ background-color: ${({ theme }) => theme.colors.background}
+
 `;
 
 export const Content = styled.View`

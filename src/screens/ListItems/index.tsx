@@ -31,6 +31,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { dataKey } from '../../utils/dataKey';
 import { NoItem } from '../../Components/NoItem';
 import { ModalNewItem } from '../../Components/ModalNewItem';
+import { ModalLimitedSpending } from '../../Components/ModalLimitedSpending';
 
 interface ListItemsProps {
   id: string;
@@ -80,58 +81,58 @@ export function ListItems() {
     navigation.goBack();
   }
 
-  function handleCreateItemScreen() {
-    navigation.navigate('CreateItem', { list });
-  }
+
 
   function handleEditList(list: ListProps) {
     navigation.navigate('EditList', { list });
   }
-  async function buyItem(index: number, id: string) {
-    let newList = listItems;
-    const change = newList[index].status;
-    newList[index].status = !change;
-    setListItems([...newList]);
-
+  async function buyItem(index: number, id: string, status: boolean, itemTotal: string) {
     let newCost = 0;
     listItems.map(item => {
-      if (item.status === true) {
+      if (item.status === true || item.id === id) {
         newCost = newCost + Number(item.total);
       }
       return;
     })
+    if (Number(list.spendingLimit) < newCost && status === false) {
+      handleLimitedCost();
+      newCost = 0;
+      return;
+    } else {
+      let newList = listItems;
+      const change = newList[index].status;
+      if (change == true)
+        newCost = newCost - Number(itemTotal);
 
+      newList[index].status = !change;
+      setListItems([...newList]);
+      try {
+        let data = await AsyncStorage.getItem(dataItemsKey);
+        const currentData: ListItemsProps[] = data ? JSON.parse(data) : [];
+        let currData = currentData.filter(data => {
+          if (data.id === id) {
+            data.status = !change;
+          }
+          return data;
+        });
 
-    try {
-      let data = await AsyncStorage.getItem(dataItemsKey);
-      const currentData: ListItemsProps[] = data ? JSON.parse(data) : [];
-      let currData = currentData.filter(data => {
-        if (data.id === id) {
-          data.status = !change;
-        }
-        return data;
-      });
+        await AsyncStorage.setItem(dataItemsKey, JSON.stringify(currData));
 
-      await AsyncStorage.setItem(dataItemsKey, JSON.stringify(currData));
+        setCost(newCost);
+        list.cost = newCost.toString();
+        data = await AsyncStorage.getItem(dataItemsKey);
+        let newData: ListItemsProps[] = data ? JSON.parse(data) : [];
 
-      setCost(newCost);
-      list.cost = newCost.toString();
-      data = await AsyncStorage.getItem(dataItemsKey);
-      let newData: ListItemsProps[] = data ? JSON.parse(data) : [];
-
-      let newListItems = newData.filter(item => {
-        return item.listId === list.id;
-      });
-      setListItems(newListItems);
-    } catch (error) {
-      Alert.alert("Nao foi capaz de criar o item");
+        let newListItems = newData.filter(item => {
+          return item.listId === list.id;
+        });
+        setListItems(newListItems);
+      } catch (error) {
+        Alert.alert("Nao foi capaz de criar o item");
+      }
     }
-
-
   }
-  function editItem(item: ListItemsProps) {
-    navigation.navigate("EditItem", { item });
-  }
+
 
   async function deleteItem(id: string) {
     try {
@@ -177,7 +178,10 @@ export function ListItems() {
   const [selectedItem, setSelectedItem] = useState(false);
   const [modalNewItemStatus, setModalNewItemStatus] = useState(false);
   const [modalEditItemStatus, setModalEditItemStatus] = useState(false);
-
+  const [modalLimitedCostStatus, setModalLimitedCostStatus] = useState(false);
+  function handleLimitedCost() {
+    setModalLimitedCostStatus(!modalLimitedCostStatus);
+  }
   function clearItemStatus() {
     setName("");
     setPrice("");
@@ -223,45 +227,47 @@ export function ListItems() {
   }
   async function handleEditItem() {
     const total = Number(price) * Number(quantity);
+    const costTotal = (Number(cost) + total);
+    if (Number(list.spendingLimit) < costTotal && selectedItem) {
+      handleLimitedCost();
+    } else {
+      const newItem: ListItemsProps = {
+        id: idItem,
+        name: name,
+        price: price,
+        quantity: quantity,
+        total: total.toString(),
+        listId: list.id,
+        status: selectedItem
+      };
 
-    const newItem: ListItemsProps = {
-      id: idItem,
-      name: name,
-      price: price,
-      quantity: quantity,
-      total: total.toString(),
-      listId: list.id,
-      status: selectedItem
-    };
 
-    console.log(newItem);
-
-    try {
-      const data = await AsyncStorage.getItem(dataItemsKey);
-      const currentData: ListItemsProps[] = data ? JSON.parse(data) : [];
-      let newListItem = currentData.filter(item => {
-        if (item.id === newItem.id) {
-          item.name = newItem.name;
-          item.price = newItem.price;
-          item.quantity = newItem.quantity;
-          item.total = newItem.total;
-          item.status = newItem.status;
-        }
-        return item;
-      })
-      await AsyncStorage.setItem(dataItemsKey, JSON.stringify(newListItem));
-      handleModalEditItemVisible();
-      loadData();
-    } catch (error) {
-      Alert.alert("Nao foi capaz de criar o item");
+      try {
+        const data = await AsyncStorage.getItem(dataItemsKey);
+        const currentData: ListItemsProps[] = data ? JSON.parse(data) : [];
+        let newListItem = currentData.filter(item => {
+          if (item.id === newItem.id) {
+            item.name = newItem.name;
+            item.price = newItem.price;
+            item.quantity = newItem.quantity;
+            item.total = newItem.total;
+            item.status = newItem.status;
+          }
+          return item;
+        })
+        await AsyncStorage.setItem(dataItemsKey, JSON.stringify(newListItem));
+        handleModalEditItemVisible();
+        loadData();
+      } catch (error) {
+        Alert.alert("Nao foi capaz de criar o item");
+      }
     }
-
   }
   async function handleAddItemList() {
     const total = Number(price) * Number(quantity);
     const costTotal = (Number(cost) + total);
-    if (Number(list.spendingLimit) < costTotal) {
-      console.log("O valor eh grande");
+    if (Number(list.spendingLimit) < costTotal && selectedItem) {
+      handleLimitedCost();
     } else {
       const newItem: ListItemsProps = {
         id: uuid.v4().toString(),
@@ -285,8 +291,9 @@ export function ListItems() {
       } catch (error) {
         Alert.alert("Nao foi capaz de criar o item");
       }
+      loadData();
     }
-    loadData();
+
   }
 
   async function loadData() {
@@ -348,11 +355,12 @@ export function ListItems() {
           <SwipeListView<ListItemsProps>
             data={listItems}
             showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
             keyExtractor={item => item.id}
             leftOpenValue={50}
             rightOpenValue={-70}
             renderItem={({ item, index }) =>
-              <BuyItem id={item.id} name={item.name} price={Number(item.price)} quantity={Number(item.quantity)} total={Number(item.total)} status={item.status} onPress={() => buyItem(index, item.id)} onLongPress={() => handleModalEditItemVisible(item)} />
+              <BuyItem id={item.id} name={item.name} price={Number(item.price)} quantity={Number(item.quantity)} total={Number(item.total)} status={item.status} onPress={() => buyItem(index, item.id, item.status, item.total)} onLongPress={() => handleModalEditItemVisible(item)} />
             }
             disableRightSwipe={true}
             renderHiddenItem={({ item, index }) => <ListDelete mode={true} onDelete={() => deleteItem(item.id)} />}
@@ -388,6 +396,7 @@ export function ListItems() {
           handleName={handleNameText}
           handlePrice={handlePriceText}
           handleQuantity={handleQuantityText} />
+        <ModalLimitedSpending visible={modalLimitedCostStatus} listName={list.name} available={Number(list.spendingLimit) - Number(cost)} fModalVisible={handleLimitedCost} />
       </Content>
       <Footer>
         <ButtonAction title={"Adicionar Item"} disabled={false} onPress={handleModalNewItemVisible} />

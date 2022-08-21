@@ -6,7 +6,11 @@ import { CreateList } from "../screens/CreateList";
 import { Categories } from "../screens/Categories";
 import { ListItems } from "../screens/ListItems";
 import { EditList } from "../screens/EditList";
+import { Settings } from "../screens/Settings";
 import { Register } from "../screens/Register";
+import { Perfil } from "../screens/Perfil";
+import { Themes } from "../screens/Themes";
+import { Language } from "../screens/Language";
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -35,10 +39,25 @@ export function AppRoutes() {
         name="ListItems"
         component={ListItems}
       />
-
       <Screen
         name="EditList"
         component={EditList}
+      />
+      <Screen
+        name="Settings"
+        component={Settings}
+      />
+      <Screen
+        name="Perfil"
+        component={Perfil}
+      />
+      <Screen
+        name="Themes"
+        component={Themes}
+      />
+      <Screen
+        name="Language"
+        component={Language}
       />
 
     </Navigator>

@@ -43,6 +43,15 @@ interface CategoryItemProps {
   title: string;
   status?: boolean | false;
 }
+interface ListItemsProps {
+  id: string;
+  name: string;
+  quantity: string,
+  price: string,
+  total: string,
+  listId?: string;
+  status: boolean;
+}
 interface IconProps {
   id?: string;
   Icon?: ReactNode;
@@ -67,6 +76,7 @@ export function Home() {
   const { user } = useAuth();
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dataListKey = dataKey.list;
+  const dataUserKey = dataKey.user;
   const dataCategoriesKey = dataKey.categories;
   const dataItemsKey = dataKey.items;
   const [categorySelected, setCategorySelected] = useState(false);
@@ -82,6 +92,7 @@ export function Home() {
 
   async function loadData() {
     const data = await AsyncStorage.getItem(dataListKey);
+    const dataItems = await AsyncStorage.getItem(dataItemsKey);
     const cat = await AsyncStorage.getItem(dataCategoriesKey);
     let dataF: ListProps[] = data ? JSON.parse(data) : [];
 
@@ -119,7 +130,9 @@ export function Home() {
     if (newCategory.length != 0)
       setCategories(newCategory);
     else {
-      setCategories(null);
+
+      setCategories(newCategory);
+
     }
   }
 
@@ -139,14 +152,20 @@ export function Home() {
     try {
 
       const data = await AsyncStorage.getItem(dataListKey);
+      const dataItems = await AsyncStorage.getItem(dataItemsKey);
+      let newDataItems: ListItemsProps[] = dataItems ? JSON.parse(dataItems) : []
       const categories = await AsyncStorage.getItem(dataCategoriesKey);
+
+      newDataItems = newDataItems.filter(data => {
+        return data.listId != id;
+      })
       let newList: ListHomeProps[] = data ? JSON.parse(data) : [];
       newList = newList.filter(item => {
         if (item.id != id) return true;
         else return false;
       })
-      console.log("Lista: " + newList);
       await AsyncStorage.setItem(dataListKey, JSON.stringify(newList));
+      await AsyncStorage.setItem(dataItemsKey, JSON.stringify(newDataItems));
     } catch (error) {
       Alert.alert("Erro ao deletar lista")
     }
@@ -161,6 +180,10 @@ export function Home() {
       title: "Escolher"
     };
     navigation.navigate('CreateList', { categorySelected });
+  }
+
+  function handleSettingsScreen() {
+    navigation.navigate('Settings');
   }
 
 
@@ -191,19 +214,19 @@ export function Home() {
     setCategories([...dataTemp]);
 
 
-
-
-
   }
 
 
   let dataFormatted: ListHomeProps[] = [];
 
   useEffect(() => {
-
-    loadData();
-
+    try {
+      loadData();
+    } catch (error) {
+      console.log(error);
+    }
     // async function removeAll() {
+    //   await AsyncStorage.removeItem(dataUserKey);
     //   await AsyncStorage.removeItem(dataListKey);
     //   await AsyncStorage.removeItem(dataItemsKey);
     //   await AsyncStorage.removeItem(dataCategoriesKey);
@@ -235,22 +258,15 @@ export function Home() {
               {user.name.split(' ')[0]}
             </NameUser>
           </Greeting>
-          <SettingButton>
+          <SettingButton onPress={handleSettingsScreen}>
             <FilterSvg width={38} height={38} />
           </SettingButton>
         </Top>
-        {/* <Bottom>
-          <TitleDay>
-            Dia de compras
-          </TitleDay>
-          <SubTitleDay>
-            Voce quer fazer compras para ?
-          </SubTitleDay>
-        </Bottom> */}
+
       </Header>
       <Body>
-        {categories &&
-          <ListCategory>
+        {typeof categories?.length === "undefined" ?
+          <></> : <ListCategory>
             <FlatList<CategoryItemProps>
               data={categories}
               horizontal

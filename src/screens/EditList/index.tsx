@@ -158,7 +158,7 @@ export function EditList() {
   return (
     <Container>
       <Content>
-        <BackButton name="Nova Lista" onPress={() => handleBackScreen()} />
+        <BackButton name="Editar Lista" onPress={() => handleBackScreen()} />
         <IconArea onPress={handleModalVisible}>
           {iconSelected.Icon}
         </IconArea>
@@ -166,16 +166,10 @@ export function EditList() {
           <Input typeNumeric={false} name={name} titlePlaceholder='Nome' handleTextChange={handleTextChange} />
           <Input typeNumeric={true} name={spendingLimit} titlePlaceholder='Limite de gasto' handleTextChange={handleTextCostChange} />
         </InputArea>
-        {/* <CategoryArea>
-          <CategoryTitle>Categoria</CategoryTitle>
-          <CategoryButton onPress={handleChangeScreen}>
-            <TitleButton>{categoryListSelected.title}</TitleButton>
-            <Feather name="chevron-right" size={34} color={theme.colors.text.primary} />
-          </CategoryButton>
-        </CategoryArea> */}
+
         <ModalIcons fModalVisible={handleModalVisible} visible={visibleModal} fChangeIcon={handleChangeIconCategory} />
       </Content>
-      <ButtonAction title="Editar lista" disabled={false} onPress={() => { handleUpdateItem() }} />
+      <ButtonAction title="Salvar" disabled={false} onPress={() => { handleUpdateItem() }} />
     </Container>
   );
 }

@@ -10,8 +10,8 @@ interface InputInitProps {
   typeNumeric: boolean;
   value: string;
   changeText: (text: string) => void;
-  handleStatusFalse: () => void;
-  handleStatusTrue: () => void;
+  handleStatusFalse?: () => void;
+  handleStatusTrue?: () => void;
 }
 export function InputInit({ value, changeText, titlePlaceholder, handleStatusFalse, handleStatusTrue, typeNumeric = false }: InputInitProps) {
 

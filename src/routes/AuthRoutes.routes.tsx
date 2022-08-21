@@ -27,6 +27,10 @@ export function AuthRoutes() {
         name="Register"
         component={Register}
       />
+      {/* <Screen
+        name="Home"
+        component={Home}
+      /> */}
     </Navigator>
   )
 }

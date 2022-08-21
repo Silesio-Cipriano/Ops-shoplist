@@ -6,6 +6,8 @@ export const Container = styled.View`
  align-items: center;
  justify-content:space-between;
  padding:36px 24px 12px;
+ background-color: ${({ theme }) => theme.colors.background}
+
 `;
 
 export const LogoArea = styled.View`

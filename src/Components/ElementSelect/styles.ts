@@ -11,7 +11,6 @@ export const Container = styled.TouchableOpacity`
   justify-content:space-between;
   border-radius:4px;
   margin-bottom:14px;
-  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Title = styled.Text`

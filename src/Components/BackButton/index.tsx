@@ -18,8 +18,7 @@ export function BackButton({ name, onPress }: BackButtonProps) {
   return (
     <Container >
       <Button onPress={onPress}>
-        <Feather name="chevron-left" size={32} color={theme.colors.secondary
-        } />
+        <Feather name="chevron-left" size={32} color={theme.colors.secondary} />
       </Button>
       <Title>{name}</Title>
     </Container>

@@ -10,10 +10,10 @@ export const Container = styled.TouchableOpacity<ListItemsProps>`
  /* width:310px; */
  width: 100%;
  height: 100px;
- padding:0 0 16px;
+ padding:0 0 ${RFValue(6)}px;
  border-radius:4px;
  justify-content:space-between;
- margin-bottom:12px;
+ margin-bottom:${RFValue(12)}px;
 `;
 export const Line = styled.View`
 flex-direction: row;
@@ -28,7 +28,7 @@ export const Top = styled.View`
   padding:0 12px;
 `
 export const Title = styled.Text<ListItemsProps>`
-  font-size:${RFValue(20)}px;
+  font-size:${RFValue(18)}px;
   color: ${({ theme, status }) => status ? theme.colors.text.secondary : theme.colors.text.primary};
 
   font-family: ${({ theme }) => theme.fonts.Primary700};

@@ -77,7 +77,9 @@ export const Think = styled.Text`
 
 `
 export const ButtonGroup = styled.View`
-  margin-top:24px;  
+  margin:0 auto 24px;
   flex-direction: row;
+  width: 100%;
+  align-items: center;
   justify-content:space-between;
 `;

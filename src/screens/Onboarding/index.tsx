@@ -19,7 +19,6 @@ import { useState, useContext } from 'react';
 import { useAuth } from '../../hooks/auth';
 export function Onboarding() {
   const { user } = useAuth();
-  console.log(user);
   const navigation = useNavigation<StackNavigationProp<any>>();
 
   const [index, setIndex] = useState(0);

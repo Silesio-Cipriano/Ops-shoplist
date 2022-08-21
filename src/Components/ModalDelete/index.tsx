@@ -4,7 +4,7 @@ import { useTheme } from 'styled-components';
 import { FlatList, TouchableOpacity } from 'react-native';
 import uuid from 'react-native-uuid';
 
-import Emoji from '../../assets/emoji/anguished-face.svg'
+import Emoji from '../../assets/emoji/face-with-monocle.svg'
 
 
 import {
@@ -23,33 +23,30 @@ import {
   Think,
 } from './styles';
 import { ButtonModalIteration } from '../ButtonModalIteration';
-import { useAuth } from '../../hooks/auth';
+import { ButtonModal } from '../ButtonModal';
 interface ModalIconsProps {
   visible: boolean;
-  available: number;
-  listName: string;
   fModalVisible: () => void;
+  onDelete: () => void;
 }
-export function ModalLimitedSpending({ visible, available, listName, fModalVisible }: ModalIconsProps) {
-  const { user } = useAuth();
+export function ModalDelete({ visible, fModalVisible, onDelete }: ModalIconsProps) {
+
   const theme = useTheme();
   return (
     <Container statusBarTranslucent transparent visible={visible} animationType={'fade'}  >
       <AreaModal>
         <BodyModal>
-          <HeaderModal>
-          </HeaderModal>
           <Content>
-            <Think>“{user.name.split(' ')[0]}, não compra ...  esta caro demais”</Think>
             <Emoji />
             <Message>
-              O valor excede o limite disponivel para a lista {listName}
+              Ao apagar uma categoria, voce apaga todas as listas criadas com ela
             </Message>
-            <ButtonGroup>
-              <ButtonModalIteration name={'Entendido'} onPress={fModalVisible} />
-            </ButtonGroup>
-            <AlertMessage>So tens disponivel {available} Mtn</AlertMessage>
+
           </Content>
+          <ButtonGroup>
+            <ButtonModal typeDelete={false} name={'Cancelar'} onPress={fModalVisible} />
+            <ButtonModal typeDelete={true} name={'Deletar'} onPress={onDelete} />
+          </ButtonGroup>
         </BodyModal>
       </AreaModal>
     </Container >

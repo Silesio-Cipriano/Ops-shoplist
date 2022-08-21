@@ -116,7 +116,6 @@ export function CreateList() {
           newList
         ]
         await AsyncStorage.setItem(dataListKey, JSON.stringify(dataUpdate));
-        console.log("Salvo");
       } catch (error) {
         console.log(error);
         Alert.alert("Nao foi possivel adicionar categoria");

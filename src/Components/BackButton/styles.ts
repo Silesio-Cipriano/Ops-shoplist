@@ -7,6 +7,7 @@ export const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  border-radius:8px;
 `;
 
 export const Button = styled.TouchableOpacity`
@@ -14,7 +15,8 @@ export const Button = styled.TouchableOpacity`
   height:45px;
   align-items: center;
   justify-content: center;
-background-color: ${({ theme }) => theme.colors.buttonBackBorder};
+  border-radius:2px;
+border:0.2px solid ${({ theme }) => theme.colors.secondary};
 `;
 export const Title = styled.Text`
   font-family:${({ theme }) => theme.fonts.Primary600};

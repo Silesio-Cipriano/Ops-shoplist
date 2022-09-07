@@ -26,11 +26,11 @@ export function ItemGroup({ id, name, icon, spendingLimit, onPress, onLongPress 
       <Content>
         {icon}
         <Info>
-          <Title>
+          <Title numberOfLines={1} >
             {name}
           </Title>
           <More>
-            <Limited>
+            <Limited numberOfLines={1} >
               Limite: {spendingLimit} Mtn
             </Limited>
           </More>

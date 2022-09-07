@@ -30,7 +30,7 @@ export function BuyItem({ id, price, name, quantity, total, onPress, onLongPress
     <Container onLongPress={onLongPress} onPress={onPress} status={status} activeOpacity={1}>
       <Line />
       <Top>
-        <Title status={status}>{name}</Title>
+        <Title numberOfLines={1} status={status}>{name}</Title>
       </Top>
       <LineCentral>
         <DashedLine dashLength={4} dashThickness={1.2} dashGap={6} dashColor={theme.colors.text.secondary} />
@@ -40,20 +40,20 @@ export function BuyItem({ id, price, name, quantity, total, onPress, onLongPress
           <Quantite status={status}>
             Quantidade
           </Quantite>
-          <Qtd status={status}>{quantity}</Qtd>
+          <Qtd numberOfLines={1}  status={status}>{quantity}</Qtd>
         </BottomElement>
         <BottomElement>
           <Quantite status={status}>
             Preço
           </Quantite>
-          <Qtd status={status}>{price} Mzn</Qtd>
+          <Qtd numberOfLines={1}  status={status}>{price} Mzn</Qtd>
         </BottomElement>
 
         <BottomElement>
           <Quantite status={status}>
             Total
           </Quantite>
-          <Qtd status={status}>{total} Mzn</Qtd>
+          <Qtd numberOfLines={1}  status={status}>{total} Mzn</Qtd>
         </BottomElement>
       </Bottom>
     </Container>

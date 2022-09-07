@@ -11,11 +11,16 @@ import {
 } from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useAuth } from '../../hooks/auth';
 
 export function Perfil() {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
+  const {user} = useAuth();
+  const [name, setName] = useState(user.name);
+  const [age, setAge] = useState(user.age);
 
+  let date=new Date(user.createdAt);
+  let createdAt=date.getDate().toString().padStart(2, '0')+"/"+(date.getMonth()+1).toString().padStart(2, '0')+"/"+date.getFullYear();
+  
   const navigation = useNavigation<StackNavigationProp<any>>();
 
   function handleBackScreen() {
@@ -45,7 +50,7 @@ export function Perfil() {
           <InputInit value={age} typeNumeric={true} titlePlaceholder="Digite uma idade" changeText={handleTextAgeChange} />
         </InputGroup>
         <ButtonAction title="Salvar" disabled={false} onPress={() => { }} />
-        <InitialData>Desde 20/03/2022</InitialData>
+        <InitialData>Desde {createdAt}</InitialData>
       </Content>
     </Container>
   );

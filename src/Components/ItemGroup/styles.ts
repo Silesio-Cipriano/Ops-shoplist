@@ -28,6 +28,7 @@ export const Title = styled.Text`
 
 export const Info = styled.View`
 flex-direction: column;
+width: ${RFValue(200)}px;
 `
 export const Limited = styled.Text`
 font-size:${RFValue(14)}px;

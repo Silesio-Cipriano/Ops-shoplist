@@ -227,9 +227,9 @@ export function Home() {
     }
     // async function removeAll() {
     //   await AsyncStorage.removeItem(dataUserKey);
-    //   await AsyncStorage.removeItem(dataListKey);
-    //   await AsyncStorage.removeItem(dataItemsKey);
-    //   await AsyncStorage.removeItem(dataCategoriesKey);
+    // // //   await AsyncStorage.removeItem(dataListKey);
+    // // //   await AsyncStorage.removeItem(dataItemsKey);
+    // // //   await AsyncStorage.removeItem(dataCategoriesKey);
     // }
     // removeAll();
   }, [isFocused]);

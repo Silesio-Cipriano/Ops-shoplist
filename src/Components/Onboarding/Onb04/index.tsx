@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from '../../../assets/onboarding/dayGame.svg';
+import { useAuth } from '../../../hooks/auth';
 import {
   Container,
   Title,
@@ -8,12 +9,14 @@ import {
 } from './styles';
 
 export function Onb04() {
+  const {dataMessage}=useAuth();
+
   return (
     <Container>
-      <Title>“Um dia sem risada é{"\n"}um dia desperdiçado”{"\n"}– Charlie Chaplin</Title>
+      <Title>{dataMessage.onboarding.onb04.title}</Title>
       <Image width={250} />
-      <Subtitle>“</Subtitle>
-      <Message>Organize seus gastos</Message>
+      <Subtitle>{dataMessage.onboarding.onb04.subtitle}</Subtitle>
+      <Message>{dataMessage.onboarding.onb04.message}</Message>
     </Container>
   );
 }

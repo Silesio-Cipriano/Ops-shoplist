@@ -13,7 +13,7 @@ export const Left = styled.View`
   align-items: center;
 `
 export const Icon = styled.View`
-  background-color: ${({ theme }) => theme.colors.text.inative};
+  border:1px dashed ${({ theme }) => theme.colors.text.inative};
   width: 52px;
   height: 52px;
   align-items: center;

@@ -44,7 +44,7 @@ export function Onboarding() {
     setIndex(3);
   }
 
-
+  const {dataMessage}=useAuth();
   return (
     <Container>
       {index > 0 ? <BackWithIcon backOnb={prevOnb} />
@@ -57,9 +57,9 @@ export function Onboarding() {
       {onboarding[index].Body}
 
       {index < 3 ?
-        <Footer onNext={nextOnb} skip={skip} />
+        <Footer onNext={nextOnb} skip={skip} title={dataMessage.onboarding.skip} />
         :
-        <ButtonAction title={"Comecar"} disabled={false} onPress={handleChangeScreen} />
+        <ButtonAction title={dataMessage.onboarding.start} disabled={false} onPress={handleChangeScreen} />
       }
     </Container>
   );

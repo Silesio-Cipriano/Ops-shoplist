@@ -1,18 +1,17 @@
-import { RFValue } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
  padding:32px 24px;
  align-items: center;
- background-color: ${({ theme }) => theme.colors.background}
-
+ background-color: ${({ theme }) => theme.colors.background};
 `;
 
 export const Content = styled.View`
  align-items: center;
-  justify-content:center;
-  width: 100%;  
-  margin-top:24px;
+  width: 100%; 
+  height:100%;
+  margin-top:${RFPercentage(10)}px;
 `
 export const Think = styled.Text`
 margin-bottom:20px;

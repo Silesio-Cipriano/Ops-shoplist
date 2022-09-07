@@ -16,7 +16,7 @@ export const Button = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   border-radius:2px;
-border:0.2px solid ${({ theme }) => theme.colors.secondary};
+background-color:${({ theme }) => theme.colors.buttonBackBorder};
 `;
 export const Title = styled.Text`
   font-family:${({ theme }) => theme.fonts.Primary600};

@@ -1,5 +1,7 @@
 import React from 'react';
 import Image from '../../../assets/onboarding/legWoman.svg';
+import { useAuth } from '../../../hooks/auth';
+import { portugues } from '../../../utils/Languages/portugues';
 import { BackWithIcon } from '../../BackWithIcon';
 
 import {
@@ -10,12 +12,13 @@ import {
 } from './styles';
 
 export function Onb01() {
+  const {dataMessage}=useAuth();
   return (
     <Container>
-      <Title>Gerencie suas{"\n"}compras de forma{"\n"}rapida e facil</Title>
+      <Title>{dataMessage.onboarding.onb01.title}</Title>
       <Image width={250} />
-      <Subtitle>Planifique</Subtitle>
-      <Message>“O Risco vem de você não saber o que está fazendo.” – Warren Buffett</Message>
+      <Subtitle>{dataMessage.onboarding.onb01.subtitle}</Subtitle>
+      <Message>{dataMessage.onboarding.onb01.message}</Message>
     </Container>
   );
 }

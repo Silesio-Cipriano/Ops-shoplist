@@ -31,6 +31,7 @@ export function Register() {
   const [buttonStatus, setButtonStatus] = useState(true);
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
+  const {dataMessage}=useAuth();
   function handleStatusChangeFalse() {
     setButtonStatus(false);
   }
@@ -86,6 +87,7 @@ export function Register() {
       id: 1,
       name: name,
       age: age,
+      createdAt:new Date(),
     }
     try {
       await AsyncStorage.setItem(dataUserKey, JSON.stringify(user));
@@ -102,14 +104,13 @@ export function Register() {
       <>
         <Logo />
         <Content>
-          <Think>“Ola, chamo-me ops e sou um{"\n"}humano igual
-            voce”</Think>
+          {/* <Think>“Ola, chamo-me ops”</Think> */}
           <EmojiLying />
           <Message>
-            Estou aqui para{"\n"}te ajudar
+            {dataMessage.register.reg01.message}
           </Message>
 
-          <ButtonAction title={"Continuar"} disabled={false} onPress={nextPage} />
+          <ButtonAction title={dataMessage.register.reg01.btnMessage} disabled={false} onPress={nextPage} />
         </Content>
       </>
 
@@ -124,15 +125,14 @@ export function Register() {
             ruim”</Think> */}
           <EmojiSimiling />
           <Message>
-            Como posso
-            chamar voce?
+            {dataMessage.register.reg02.message}
           </Message>
 
           <InputArea>
-            <InputInit value={name} typeNumeric={false} titlePlaceholder="Digite um nome" changeText={handleTextNameChange} handleStatusFalse={() => handleStatusChangeFalse()} handleStatusTrue={() => handleStatusChangeTrue()} />
+            <InputInit value={name} typeNumeric={false} titlePlaceholder={dataMessage.register.reg02.inputPlaceholder} changeText={handleTextNameChange} handleStatusFalse={() => handleStatusChangeFalse()} handleStatusTrue={() => handleStatusChangeTrue()} />
           </InputArea>
 
-          <ButtonAction title={"Continuar"} disabled={false} onPress={saveName} />
+          <ButtonAction title={dataMessage.register.reg02.btnMessage} disabled={false} onPress={saveName} />
         </Content>
 
       </>
@@ -146,16 +146,15 @@ export function Register() {
       <>
         <BackWithIcon backOnb={prevPage} />
         <Content>
-          <Think>“O mais novo sera o chefe”</Think>
+          <Think></Think>
           <EmojiUpside />
           <Message>
-            Eu tenho 0 anos{"\n"}
-            qual é a tua idade?
+            {dataMessage.register.reg03.message}
           </Message>
           <InputArea>
-            <InputInit value={age} typeNumeric={true} titlePlaceholder="Digite um nome" changeText={handleTextAgeChange} handleStatusFalse={() => handleStatusChangeFalse()} handleStatusTrue={() => handleStatusChangeTrue()} />
+            <InputInit value={age} typeNumeric={true} titlePlaceholder={dataMessage.register.reg03.inputPlaceholder} changeText={handleTextAgeChange} handleStatusFalse={() => handleStatusChangeFalse()} handleStatusTrue={() => handleStatusChangeTrue()} />
           </InputArea>
-          <ButtonAction title={"Continuar"} disabled={false} onPress={saveAge} />
+          <ButtonAction title={dataMessage.register.reg03.btnMessage} disabled={false} onPress={saveAge} />
 
         </Content>
       </>
@@ -167,16 +166,14 @@ export function Register() {
       <>
         <BackWithIcon backOnb={prevPage} />
         <Content>
-          <Think>“Tem um nome bonito, mas
-            eu sou o mais novo hahaha,
-            me chama de ops o rei das compras”</Think>
+          <Think></Think>
           <EmojiEyes />
           <Message>
-            Seja bem-vindo{"\n"}
+            {dataMessage.register.reg04.message}
             <Think>{name}</Think>
           </Message>
 
-          <ButtonAction title={"Continuar"} disabled={false} onPress={handleChangeScreen} />
+          <ButtonAction title={dataMessage.register.reg04.btnMessage} disabled={false} onPress={handleChangeScreen} />
         </Content>
       </>
     )

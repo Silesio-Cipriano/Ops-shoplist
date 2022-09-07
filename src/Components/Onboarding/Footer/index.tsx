@@ -10,12 +10,13 @@ import {
 interface FooterProps {
   onNext: () => void;
   skip: () => void;
+  title:string;
 }
-export function Footer({ onNext, skip }: FooterProps) {
+export function Footer({ onNext, skip,title}: FooterProps) {
   return (
     <Container >
       <ButtonJump onPress={skip}>
-        <Title>Saltar</Title>
+        <Title>{title}</Title>
       </ButtonJump>
       <ButtonNext onPress={onNext}>
         <Feather name="chevron-right" size={39} />

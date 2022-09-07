@@ -10,7 +10,7 @@ export const Container = styled.TouchableOpacity<ListItemsProps>`
  /* width:310px; */
  width: 100%;
  height: 100px;
- padding:0 0 ${RFValue(6)}px;
+ padding:0 0 ${RFValue(20)}px;
  border-radius:4px;
  justify-content:space-between;
  margin-bottom:${RFValue(12)}px;
@@ -18,8 +18,8 @@ export const Container = styled.TouchableOpacity<ListItemsProps>`
 export const Line = styled.View`
 flex-direction: row;
   background-color: ${({ theme }) => theme.colors.text.primary};
-  width: 10px;
-  height:18px;
+  width: 8px;
+  height:12px;
   margin-left:95%;
   align-items:flex-end;
 `
@@ -30,7 +30,6 @@ export const Top = styled.View`
 export const Title = styled.Text<ListItemsProps>`
   font-size:${RFValue(18)}px;
   color: ${({ theme, status }) => status ? theme.colors.text.secondary : theme.colors.text.primary};
-
   font-family: ${({ theme }) => theme.fonts.Primary700};
 `
 
@@ -49,14 +48,14 @@ export const Bottom = styled.View`
 `
 export const BottomElement = styled.View``;
 export const Quantite = styled.Text<ListItemsProps>`
-  font-size:${RFValue(14)}px;
+  font-size:${RFValue(12)}px;
   color: ${({ theme, status }) => status ? theme.colors.text.secondary : theme.colors.text.primary};
 
-  font-family: ${({ theme }) => theme.fonts.Primary600};
+  font-family: ${({ theme }) => theme.fonts.Primary700};
 
 `
 export const Qtd = styled.Text<ListItemsProps>`
-  font-size:${RFValue(14)}px;
+  font-size:${RFValue(12)}px;
   color: ${({ theme, status }) => status ? theme.colors.text.secondary : theme.colors.text.primary};
   font-family: ${({ theme }) => theme.fonts.Primary400};
 `

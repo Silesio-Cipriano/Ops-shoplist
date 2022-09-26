@@ -45,7 +45,7 @@ export function Settings() {
       </OptionArea>
       <Slogan>
         <OrdeIcon />
-        <TitleSlogan>DuoMaster</TitleSlogan>
+        <TitleSlogan>Desenvolvido por Silesio Cipriano</TitleSlogan>
       </Slogan>
       <Footer>
         <Logo width={108} height={90} />

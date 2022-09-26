@@ -4,6 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList } from 'react-native';
 import { BackButton } from '../../Components/BackButton';
+import { BackWithIcon } from '../../Components/BackWithIcon';
 import { ButtonAction } from '../../Components/ButtonAction';
 import { CategoryElement } from '../../Components/CategoryElement';
 import { ElementSelect } from '../../Components/ElementSelect';
@@ -20,9 +21,10 @@ interface LanguageProps {
   name: string;
   selected: boolean;
 }
-export function Language() {
+export function LanguageInit() {
   const dataLangKey=dataKey.lang;
-  const {changeLanguage}=useAuth();
+  const {changeLanguage,defaultLang}=useAuth();
+  defaultLang();
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [dataLang,setDataLang]=useState<LanguageProps[]>([]);
   const [idLang,setIdLang]=useState("")
@@ -51,19 +53,18 @@ export function Language() {
     
     try {
       await AsyncStorage.setItem(dataLangKey, JSON.stringify(dataLang));
-      console.log("Salvo")
+      
     } catch (error) {
       console.log(error);
       Alert.alert("Nao foi possivel adicionar categoria");
     }
 
-    loadData();
-    navigation.goBack();
-    }else{
-      Alert.alert("Escolha o seu pais")
-    }
+    navigation.navigate("Register");
+    
+  }else{
+    Alert.alert("Escolha o seu pais")
   }
-
+  }
   async function loadData(){
     const lang = await AsyncStorage.getItem(dataLangKey);
     let dataLang: LanguageProps[] = lang ? JSON.parse(lang) : [];
@@ -81,7 +82,7 @@ export function Language() {
 
   return (
     <Container>
-      <BackButton name='Pais/Lingua' onPress={handleBackScreen} />
+      <BackWithIcon backOnb={handleBackScreen} />
       <Content>
         <FlatList<LanguageProps>
           data={dataLang}

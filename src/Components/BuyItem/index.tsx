@@ -1,6 +1,7 @@
 import React from 'react';
 import DashedLine from 'react-native-dashed-line';
 import { useTheme } from 'styled-components';
+import { useAuth } from '../../hooks/auth';
 import {
   Container,
   Top,
@@ -25,6 +26,7 @@ interface ListItemsProps {
 }
 export function BuyItem({ id, price, name, quantity, total, onPress, onLongPress, status }: ListItemsProps) {
   const theme = useTheme();
+  const {amountMyLocal} =useAuth();
 
   return (
     <Container onLongPress={onLongPress} onPress={onPress} status={status} activeOpacity={1}>
@@ -46,14 +48,14 @@ export function BuyItem({ id, price, name, quantity, total, onPress, onLongPress
           <Quantite status={status}>
             Preço
           </Quantite>
-          <Qtd numberOfLines={1}  status={status}>{price} Mzn</Qtd>
+          <Qtd numberOfLines={1}  status={status}>{amountMyLocal(price)} </Qtd>
         </BottomElement>
 
         <BottomElement>
           <Quantite status={status}>
             Total
           </Quantite>
-          <Qtd numberOfLines={1}  status={status}>{total} Mzn</Qtd>
+          <Qtd numberOfLines={1}  status={status}>{amountMyLocal(total)} </Qtd>
         </BottomElement>
       </Bottom>
     </Container>

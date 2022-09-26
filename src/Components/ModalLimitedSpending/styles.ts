@@ -21,6 +21,14 @@ export const TitleModal = styled.Text`
   font-family: ${({ theme }) => theme.fonts.Primary600};
   color: ${({ theme }) => theme.colors.primary};
 `;
+
+export const BoldTitleList = styled.Text `
+   font-size:${RFValue(20)}px;
+ text-align: center;
+  font-family: ${({ theme }) => theme.fonts.Primary700};
+  color: ${({ theme }) => theme.colors.text.primary};
+`
+
 export const BodyModal = styled.View`
 padding:0 24px;
 margin-top:100px;

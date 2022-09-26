@@ -2,10 +2,11 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
- padding:0 ${RFValue(24)}px;
+ padding: 0 ${RFValue(24)}px ${RFValue(24)}px;
+ height: 100%;
  justify-content:space-between;
  align-items: center;
- background-color: ${({ theme }) => theme.colors.background}
+ background-color: ${({ theme }) => theme.colors.background};
 
 `;
 

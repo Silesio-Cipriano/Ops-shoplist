@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { Alert,  } from 'react-native';
 import Logo from '../../assets/Logo.svg';
 import EmojiLying from '../../assets/emoji/lying-face.svg';
 import EmojiSimiling from '../../assets/emoji/smiling-face-with-smiling-eyes.svg';
@@ -26,6 +25,7 @@ import { useAuth } from '../../hooks/auth';
 
 
 export function Register() {
+
   const navigation = useNavigation<StackNavigationProp<any>>();
   const { signIn } = useAuth();
   const [buttonStatus, setButtonStatus] = useState(true);

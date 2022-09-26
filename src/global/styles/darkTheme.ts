@@ -1,9 +1,9 @@
 export default {
   colors: {
-    background: '#FFFFFF',
+    background: '#222734',
     primary: '#FFC700',
-    buttonBackBorder: "#FEF0BE",
-    secondary: '#222734',
+    buttonBackBorder: "#595D67",
+    secondary: '#fff',
     secondaryAlternative: '#222734',
     inative: "#FDEEBA",
     iconBackground: "#E4FFFF",
@@ -11,9 +11,9 @@ export default {
     cardBackground: "#F5FAF7",
     alert: "#E83F5B",
     text: {
-      primary: '#222734',
+      primary: '#fff',
       secondary: '#FFFFFF',
-      inative: "#7C7F86"
+      inative: "#7E96A8"
     }
   },
   fonts: {

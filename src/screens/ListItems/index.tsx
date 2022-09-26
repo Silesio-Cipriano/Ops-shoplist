@@ -32,6 +32,7 @@ import { dataKey } from '../../utils/dataKey';
 import { NoItem } from '../../Components/NoItem';
 import { ModalNewItem } from '../../Components/ModalNewItem';
 import { ModalLimitedSpending } from '../../Components/ModalLimitedSpending';
+import { useAuth } from '../../hooks/auth';
 
 interface ListItemsProps {
   id: string;
@@ -52,6 +53,8 @@ interface ListProps {
   icon: IconProps;
   category: string;
   spendingLimit?: string;
+  spendingLimitFormatted?: string;
+  costWithoutFormated?:Number;
   cost?: string;
 }
 interface Item {
@@ -62,12 +65,16 @@ interface Item {
 type Params = any;
 
 export function ListItems() {
+  const {amountMyLocal}=useAuth();
   const dataListKey = dataKey.list;
   const dataCategoriesKey = dataKey.categories;
   const dataItemsKey = dataKey.items;
   const isFocused = useIsFocused();
   const [listItems, setListItems] = useState<ListItemsProps[]>([]);
-  const [cost, setCost] = useState(0);
+  const [cost, setCost] = useState("");
+  const [spendingLimitFormatted,setSpendingLimitFormatted]=useState("");
+  const [selectedList, setSelectedList] = useState<ListProps>({}as ListProps);
+  const [costNumber, setCostNumber] = useState(0);
 
   const navigation = useNavigation<StackNavigationProp<any>>();
   const route = useRoute();
@@ -94,7 +101,7 @@ export function ListItems() {
       }
       return;
     })
-    if (Number(list.spendingLimit) < newCost && status === false) {
+    if (Number(selectedList.spendingLimit) < newCost && status === false) {
       handleLimitedCost();
       newCost = 0;
       return;
@@ -118,7 +125,9 @@ export function ListItems() {
 
         await AsyncStorage.setItem(dataItemsKey, JSON.stringify(currData));
 
-        setCost(newCost);
+        setCostNumber(newCost);
+        const myCost=amountMyLocal(newCost)
+        setCost(myCost+"");
         list.cost = newCost.toString();
         data = await AsyncStorage.getItem(dataItemsKey);
         let newData: ListItemsProps[] = data ? JSON.parse(data) : [];
@@ -159,8 +168,10 @@ export function ListItems() {
         }
         return;
       })
+      setCostNumber(newCost);
 
-      setCost(newCost);
+      const myCost=amountMyLocal(newCost)
+      setCost(myCost+"");
       list.cost = Number(newCost);
       setListItems(newListItems);
 
@@ -227,8 +238,8 @@ export function ListItems() {
   }
   async function handleEditItem() {
     const total = Number(price) * Number(quantity);
-    const costTotal = (Number(cost) + total);
-    if (Number(list.spendingLimit) < costTotal && selectedItem) {
+    const costTotal = (Number(costNumber) + total);
+    if (Number(selectedList.spendingLimit) < costTotal && selectedItem) {
       handleLimitedCost();
     } else {
       const newItem: ListItemsProps = {
@@ -265,8 +276,8 @@ export function ListItems() {
   }
   async function handleAddItemList() {
     const total = Number(price) * Number(quantity);
-    const costTotal = (Number(cost) + total);
-    if (Number(list.spendingLimit) < costTotal && selectedItem) {
+    const costTotal = (Number(costNumber) + total);
+    if (Number(selectedList.spendingLimit) < costTotal && selectedItem) {
       handleLimitedCost();
     } else {
       const newItem: ListItemsProps = {
@@ -298,6 +309,19 @@ export function ListItems() {
 
   async function loadData() {
     const items = await AsyncStorage.getItem(dataItemsKey);
+    const open=await AsyncStorage.getItem(dataListKey);
+    let listOpen: ListProps[] = JSON.parse(open);
+
+    let newListOpen:ListProps = listOpen.find(item => {
+      return item.id === list.id+"";
+    });
+
+
+    setSelectedList(newListOpen);
+    setSpendingLimitFormatted(amountMyLocal(Number(newListOpen.spendingLimit))+"")
+    list.spendingLimit=newListOpen.spendingLimit
+    list.name=newListOpen.name;
+
 
     let listItems: ListItemsProps[] = JSON.parse(items);
     let newListItems = listItems.filter(item => {
@@ -311,7 +335,10 @@ export function ListItems() {
       }
       return;
     })
-    setCost(newCost);
+    setCostNumber(newCost);
+    
+    const myCost=amountMyLocal(newCost)
+    setCost(myCost+"");
     list.cost = newCost.toString();
     setListItems(newListItems);
     clearItemStatus();
@@ -325,7 +352,6 @@ export function ListItems() {
   }
 
   useEffect(() => {
-
     loadData();
   }, [isFocused])
 
@@ -337,7 +363,7 @@ export function ListItems() {
             <IconBack>
               <Feather name="chevron-left" size={34} color={useTheme().colors.secondary} />
             </IconBack>
-            <Name>{list.name}</Name>
+            <Name numberOfLines={2}>{selectedList.name}</Name>
           </Left>
           <Icon onPress={() => handleEditList(list)}>
             {iconOfList.Icon}
@@ -345,7 +371,7 @@ export function ListItems() {
         </ButtonBack>
 
         <Top>
-          <Limit>Limite: <Limited>{list.spendingLimit} Mzn</Limited> {cost != 0 && <>| Gasto: <Cost>{cost} Mzn </Cost></>}</Limit>
+          <Limit>Limite: <Limited>{spendingLimitFormatted} </Limited> {costNumber != 0 && <>| Gasto: <Cost>{cost}  </Cost></>}</Limit>
           <Limit>Itens: <Item>{listItems.length}</Item></Limit>
         </Top>
 
@@ -396,7 +422,7 @@ export function ListItems() {
           handleName={handleNameText}
           handlePrice={handlePriceText}
           handleQuantity={handleQuantityText} />
-        <ModalLimitedSpending visible={modalLimitedCostStatus} listName={list.name} available={Number(list.spendingLimit) - Number(cost)} fModalVisible={handleLimitedCost} />
+        <ModalLimitedSpending visible={modalLimitedCostStatus} listName={selectedList.name} available={Number(selectedList.spendingLimit) - Number(costNumber)} fModalVisible={handleLimitedCost} />
       </Content>
       <Footer>
         <ButtonAction title={"Adicionar Item"} disabled={false} onPress={handleModalNewItemVisible} />

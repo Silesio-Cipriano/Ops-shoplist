@@ -1,3 +1,4 @@
+import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.TouchableHighlight`
@@ -5,6 +6,7 @@ export const Container = styled.TouchableHighlight`
  /* width:310px; */
  width: 100%;
  padding:14px 12px;
+  height: 57px;
  border-radius:4px;
  justify-content:space-between;
  background-color: ${({ theme }) => theme.colors.alert};
@@ -12,7 +14,7 @@ export const Container = styled.TouchableHighlight`
 
 export const IconArea = styled.View`
  margin-left:85%;
- margin-top:8px;
+
  align-items: center;
  justify-content:center;
 `

@@ -17,7 +17,7 @@ export const Container = styled.TouchableOpacity`
 `;
 
 export const Title = styled.Text<ButtonProps>`
-  font-family: ${({ theme }) => theme.fonts.Primary600};
+  font-family: ${({ theme }) => theme.fonts.Primary700};
   font-size:${RFValue(20)}px;
-  color:${({ theme, disabled }) => disabled ? theme.colors.text.inative : theme.colors.secondary};
+  color:${({ theme, disabled }) => disabled ? theme.colors.text.inative : theme.colors.secondaryAlternative};
 `

@@ -7,6 +7,8 @@ interface CategoryElementProps {
 export const Container = styled.TouchableOpacity`
   border:1px solid ${({ theme }) => theme.colors.secondary};
   padding: 14.14px;
+  height: 58px;
+
   flex-direction: row;
   justify-content:space-between;
   border-radius:4px;

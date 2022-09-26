@@ -19,7 +19,7 @@ export const Slogan = styled.View`
   margin-bottom:24px;
 `
 export const TitleSlogan = styled.Text`
- font-size:${RFValue(18)}px;
+ font-size:${RFValue(14)}px;
   font-family: ${({ theme }) => theme.fonts.Primary600};
   color: ${({ theme }) => theme.colors.text.primary};
   margin-left:${RFValue(24)}px;

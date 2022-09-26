@@ -27,6 +27,7 @@ export const Left = styled.TouchableOpacity`
   flex-direction:row;
   align-items: center;
 `;
+
 export const IconBack = styled.View`
   width:45px;
   height:45px;
@@ -43,22 +44,22 @@ export const Top = styled.View`
   margin-top:12px;
 `
 export const Limit = styled.Text`
-  font-size:${RFValue(16)}px;
+  font-size:${RFValue(14)}px;
   color:${({ theme }) => theme.colors.text.primary};
   font-family: ${({ theme }) => theme.fonts.Primary600};
 `
 export const Limited = styled.Text`
-  font-size:${RFValue(16)}px;
+  font-size:${RFValue(14)}px;
   color:${({ theme }) => theme.colors.text.primary};
   font-family: ${({ theme }) => theme.fonts.Primary400};
 `
 export const Cost = styled.Text`
-  font-size:${RFValue(16)}px;
+  font-size:${RFValue(14)}px;
   color:${({ theme }) => theme.colors.alert};
   font-family: ${({ theme }) => theme.fonts.Primary400};
 `
 export const Item = styled.Text`
-  font-size:${RFValue(16)}px;
+  font-size:${RFValue(14)}px;
   color:${({ theme }) => theme.colors.text.primary};
   font-family: ${({ theme }) => theme.fonts.Primary400};
 `
@@ -67,6 +68,8 @@ export const Content = styled.View`
   align-items: center;
   margin:0 24px;
   height:${RFPercentage(65)}px;
+ padding-top:${RFValue(8)}px;
+
 `;
 export const Footer = styled.View`
   padding:0 24px;

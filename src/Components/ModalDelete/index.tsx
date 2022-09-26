@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 import { FlatList, TouchableOpacity } from 'react-native';
@@ -24,14 +24,19 @@ import {
 } from './styles';
 import { ButtonModalIteration } from '../ButtonModalIteration';
 import { ButtonModal } from '../ButtonModal';
+import { useIsFocused } from '@react-navigation/native';
 interface ModalIconsProps {
   visible: boolean;
   fModalVisible: () => void;
-  onDelete: () => void;
+  onDelete: (id:string) => void;
+  idCategory:string;
 }
-export function ModalDelete({ visible, fModalVisible, onDelete }: ModalIconsProps) {
-
+export function ModalDelete({ visible, fModalVisible, onDelete,idCategory}: ModalIconsProps) {
   const theme = useTheme();
+  function deleteNow(){
+    onDelete(idCategory);
+  }
+  useEffect(()=>{},[useIsFocused])
   return (
     <Container statusBarTranslucent transparent visible={visible} animationType={'fade'}  >
       <AreaModal>
@@ -45,7 +50,7 @@ export function ModalDelete({ visible, fModalVisible, onDelete }: ModalIconsProp
           </Content>
           <ButtonGroup>
             <ButtonModal typeDelete={false} name={'Cancelar'} onPress={fModalVisible} />
-            <ButtonModal typeDelete={true} name={'Deletar'} onPress={onDelete} />
+            <ButtonModal typeDelete={true} name={'Deletar'} onPress={deleteNow} />
           </ButtonGroup>
         </BodyModal>
       </AreaModal>

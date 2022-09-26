@@ -18,12 +18,11 @@ import { onboarding } from '../../utils/onboardingData';
 import { useState, useContext } from 'react';
 import { useAuth } from '../../hooks/auth';
 export function Onboarding() {
-  const { user } = useAuth();
+  const { user,defaultLang } = useAuth();
   const navigation = useNavigation<StackNavigationProp<any>>();
-
   const [index, setIndex] = useState(0);
   function handleChangeScreen() {
-    navigation.navigate("Register");
+    navigation.navigate("LanguageInit");
   }
   function nextOnb() {
     if (index < 3) {

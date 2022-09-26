@@ -2,8 +2,12 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  padding:0 ${RFValue(24)}px 0;
-  background-color: ${({ theme }) => theme.colors.background}
+  padding:0 ${RFValue(24)}px ${RFValue(24)}px;
+  height: 100%;
+  width: 100%;
+  justify-content:space-between;
+  align-items: center;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 
@@ -25,6 +29,11 @@ export const Input = styled.TextInput`
 export const FlexDirection = styled.View`
   flex-direction: row;
 `
+
+export const CenterContent=styled.View `
+ width: 100%;
+`;
+
 export const BtnAddCategory = styled.TouchableOpacity`
   padding:${RFValue(8)}px;
   background-color: ${({ theme }) => theme.colors.primary};
@@ -38,5 +47,5 @@ export const BtnAddCategory = styled.TouchableOpacity`
 
 export const CategoriesList = styled.View`
   margin-top:${RFValue(14)}px;
-  height:280px;
+  height: ${RFValue(380)}px;
 `;

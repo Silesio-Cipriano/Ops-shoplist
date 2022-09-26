@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
-import { Alert, FlatList } from 'react-native';
+import { Alert, FlatList, View } from 'react-native';
 import uuid from 'react-native-uuid';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -12,6 +12,7 @@ import {
   Input,
   BtnAddCategory,
   CategoriesList,
+  CenterContent,
 } from './styles';
 import { CategoryElement } from '../../Components/CategoryElement';
 import { ButtonAction } from '../../Components/ButtonAction';
@@ -110,8 +111,14 @@ export function Categories() {
     try {
       const dataList = await AsyncStorage.getItem(dataListKey);
       let newDataList: ListProps[] = dataList ? JSON.parse(dataList) : [];
+      
       newDataList = newDataList.filter(data => {
-        return data.category != id
+        if(data.category !== id){
+        }else{
+          data.category="";
+        }
+
+        return data.category !== id
       })
       await AsyncStorage.setItem(dataListKey, JSON.stringify(newDataList));
 
@@ -119,6 +126,8 @@ export function Categories() {
     } catch (error) {
       Alert.alert("Nao foi possivel deletar")
     }
+
+    setModalVisible(false);
   }
   function selectedElement(indexElement: number) {
     let dataTemp = data;
@@ -145,23 +154,23 @@ export function Categories() {
       setData(JSON.parse(data!));
     }
     loadData();
-
     // async function removeAll() {
     //   await AsyncStorage.removeItem(dataCategoriesKey);
     // }
     // removeAll();
   }, []);
+
+  const [itemState,setItemState]=useState("");
   return (
     <Container>
       <BackButton name="Categorias" onPress={() => backScreen()} />
-
+      <CenterContent>
       <InputCategory>
         <Input
           value={text}
           placeholder={"Nova categoria"}
           onChangeText={setText}
         />
-
 
       </InputCategory>
 
@@ -176,20 +185,29 @@ export function Categories() {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           keyExtractor={item => item.id}
+          renderHiddenItem={({ item, index},rowKey) => 
+          <>
+          {/* <ModalDelete visible={modalVisible} idCategory={item.id} onDelete={()=>deleteCategory(item.id)} fModalVisible={handleModalVisible} /> */}
+          {/* <ModalDelete visible={modalVisible} idCategory={item.id} onDelete={()=>{
+            const newData=[...data];
+             const index = data.findIndex(review => review.id === item.id);
+             console.log("Index: ",index);
+             newData.splice(index, 1);
+            setData([...newData]);
+            deleteCategory("")}} fModalVisible={handleModalVisible} /> */}
+          <CategoryDelete onDelete={()=>deleteCategory(item.id)} />
+          </>
+          }
           renderItem={({ item, index }) =>
             <CategoryElement title={item.title} onPress={() => selectedElement(index)} selected={item.selected} />
           }
           leftOpenValue={50}
           rightOpenValue={-70}
           disableRightSwipe={true}
-          renderHiddenItem={({ item, index }) => (<><CategoryDelete onDelete={handleModalVisible} />
-            <ModalDelete visible={modalVisible} onDelete={() => deleteCategory(item.id)} fModalVisible={handleModalVisible} />
-          </>
-          )
-          }
 
         />
       </CategoriesList>
+      </CenterContent>
       <ButtonAction disabled={disableButton} title="Continuar" onPress={handleChangeScreen} />
     </Container >
   );

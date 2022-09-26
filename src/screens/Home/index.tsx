@@ -62,6 +62,7 @@ interface ListHomeProps {
   icon: IconProps;
   category: string;
   spendingLimit?: string;
+  spendingLimitFormatted?: string;
 }
 
 interface ListProps {
@@ -73,7 +74,7 @@ interface ListProps {
 }
 
 export function Home() {
-  const { user } = useAuth();
+  const { user,amountMyLocal } = useAuth();
   const navigation = useNavigation<StackNavigationProp<any>>();
   const dataListKey = dataKey.list;
   const dataUserKey = dataKey.user;
@@ -100,12 +101,20 @@ export function Home() {
       iconData.map((icon) => {
         if (data?.icon === icon?.id) {
           const newIcon = icon;
+         
+
+          const amount= amountMyLocal(Number(data.spendingLimit));
+
+          
+          
+
           const newData: ListHomeProps = {
             id: data.id,
             name: data.name,
             icon: newIcon,
             category: data.category,
             spendingLimit: data.spendingLimit,
+            spendingLimitFormatted:amount+"",
           }
           dataFormatted.push(newData);
         }
@@ -212,8 +221,6 @@ export function Home() {
     })
 
     setCategories([...dataTemp]);
-
-
   }
 
 
@@ -239,11 +246,11 @@ export function Home() {
       id: listHome.id,
       name: listHome.name,
       spendingLimit: listHome.spendingLimit,
+      spendingLimitFormatted: listHome.spendingLimitFormatted,
       icon: listHome.icon.id,
     }
     navigation.navigate("ListItems", { list })
   }
-
 
   const theme = useTheme();
   return (
@@ -293,7 +300,7 @@ export function Home() {
                   rightOpenValue={-70}
                   keyExtractor={item => item.id}
                   renderItem={({ item }) =>
-                    < ItemGroup id={item.id} name={item.name} spendingLimit={item.spendingLimit} icon={item.icon.Icon} onPress={() => handleList(item)} onLongPress={() => handleEditList(item)} />
+                    < ItemGroup id={item.id} name={item.name} spendingLimit={item.spendingLimitFormatted} icon={item.icon.Icon} onPress={() => handleList(item)} onLongPress={() => handleEditList(item)} />
                   }
 
                   disableRightSwipe={true}

@@ -31,7 +31,7 @@ export function ItemGroup({ id, name, icon, spendingLimit, onPress, onLongPress 
           </Title>
           <More>
             <Limited numberOfLines={1} >
-              Limite: {spendingLimit} Mtn
+              Limite: {spendingLimit}
             </Limited>
           </More>
         </Info>

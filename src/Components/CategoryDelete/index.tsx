@@ -13,7 +13,7 @@ export function CategoryDelete({ onDelete }: CategoryDeleteProps) {
   return (
     <Container onPress={onDelete} underlayColor={"#828182"} activeOpacity={1}>
       <IconArea>
-        <Feather name="trash" size={19} color="white" />
+        <Feather name="trash" size={24} color="white" />
       </IconArea>
     </Container>
   );

@@ -21,6 +21,7 @@ import {
   AlertMessage,
   ButtonGroup,
   Think,
+  BoldTitleList,
 } from './styles';
 import { ButtonModalIteration } from '../ButtonModalIteration';
 import { useAuth } from '../../hooks/auth';
@@ -31,8 +32,11 @@ interface ModalIconsProps {
   fModalVisible: () => void;
 }
 export function ModalLimitedSpending({ visible, available, listName, fModalVisible }: ModalIconsProps) {
-  const { user } = useAuth();
+  const { user,amountMyLocal } = useAuth();
   const theme = useTheme();
+
+  let valor=available<0? amountMyLocal(0): amountMyLocal(available);
+
   return (
     <Container statusBarTranslucent transparent visible={visible} animationType={'fade'}  >
       <AreaModal>
@@ -43,12 +47,12 @@ export function ModalLimitedSpending({ visible, available, listName, fModalVisib
             <Think>“{user.name.split(' ')[0]}, não compra ...  esta caro demais”</Think>
             <Emoji />
             <Message>
-              O valor excede o limite disponivel para a lista {listName}
+              O valor excede o limite disponivel para a lista <BoldTitleList>{listName}</BoldTitleList>
             </Message>
             <ButtonGroup>
               <ButtonModalIteration name={'Entendido'} onPress={fModalVisible} />
             </ButtonGroup>
-            <AlertMessage>So tens disponivel {available} Mtn</AlertMessage>
+            <AlertMessage>So tens disponivel {valor}</AlertMessage>
           </Content>
         </BodyModal>
       </AreaModal>
